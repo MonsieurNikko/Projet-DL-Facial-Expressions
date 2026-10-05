@@ -20,9 +20,9 @@ Phase 1 — Dataset research and understanding.
 
 ## Current microtask
 
-Part 1 / micro-step 1a — inspect the FER2013 directory tree and count `.jpg` images by class. Completed; Copilot code review: PASS.
-Owner: Student A (Nikko); Student reviewer: Student B (Simon).
-The notebook cell was executed locally. The Colab download method remains undecided.
+Part 1 / micro-step 1c — build train/val/test `tf.data` datasets (grayscale, one-hot, 80/20 split seed 42, /255 normalisation). Written; awaiting execution in Colab (TensorFlow not installed locally). Expected: batch (64, 48, 48, 1) / (64, 7), pixels in [0, 1], 22,968 / 5,741 / 7,178 images.
+Done: 1a (inventory) and 1b (example grid + format check, Copilot PASS after unreadable-file fix).
+Colab run owner: Student B (Simon); reviewer: Student A (Nikko).
 
 
 ## Assignment progress
@@ -63,7 +63,7 @@ Classes and image counts (train / test):
 - surprise: 3,171 / 831
 
 Image dimensions:
-à mesurer en Partie 1
+All 35,887 images are 48×48, grayscale (PIL mode L), `.jpg` (verified in 1b). Network input: (48, 48, 1).
 
 Class balance:
 Imbalanced; `disgust` is the smallest class and `happy` the largest in both splits. No model impact has been measured yet.
@@ -93,9 +93,8 @@ No experiments yet.
 
 ## Repository
 
-- Local Git repository initialized on branch `main`; reference commit `95fcc08 chore: initial reference commit`; no remote.
-- Git tracks `.gitignore`, `.hermes.md`, `PROJECT_CONTEXT.md`, `PROJECT_JOURNAL.md`, `PROJECT_STATE.md`, and `README.md`; `notebooks/` is currently untracked.
-- `notebooks/fer2013_expressions.ipynb` contains three cells (title, 1a explanation, 1a code) and is currently untracked.
+- Public GitHub remote `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`, branch `main` (commits `feeb05b` 1a, `4e9bb38` 1b).
+- `notebooks/fer2013_expressions.ipynb` holds steps 1a–1c; Simon works in `notebooks/part3_cnn.ipynb`.
 - `data/fer2013/` is extracted locally and ignored by Git; the train/test image counts are recorded above.
 - `data/raw/fer2013.zip` is the only ZIP archive currently present in `data/raw/`; the three other archives were removed.
 - The assignment PDF is in `docs/` and ignored by Git (`docs/*.pdf`).
@@ -122,7 +121,7 @@ TBD
 
 ## Open issues
 
-- Image counts and class balance were verified in 1a; image dimensions and license details remain to be verified in Part 1.
+- License details remain to be verified in Part 1.
 - The reference commit `95fcc08` provides a Git baseline for reviews.
 - The Colab download method (Kaggle API or Drive upload) has not been decided; it is not needed for local micro-step 1a.
 
@@ -130,4 +129,4 @@ TBD
 
 ## Next candidate step
 
-Candidate: Part 1 / micro-step 1b — inspect example images and verify their dimensions and grayscale format. Wait for the next user `go` before implementation.
+Candidate: validate 1c in Colab, commit 1b+1c, then Part 2 — dense baseline. Wait for the next user `go` before implementation.

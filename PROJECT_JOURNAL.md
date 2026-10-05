@@ -198,3 +198,39 @@ Copilot: PASS.
 - FER2013's directory names map to the seven expression labels.
 - The training split is imbalanced: `disgust` has 436 images while `happy` has 7,215; later evaluation should consider class-wise performance.
 
+### 2026-10-05 — Dataset format and input pipeline (1b–1c)
+
+**Phase:**  
+Part 1 — Dataset research and understanding.
+
+**Goal:**  
+Verify the image format and prepare reproducible train, validation, and test datasets.
+
+**Owner:**  
+Implementation Worker (1c); Student B (Simon) will run Colab, Student A (Nikko) will review the results.
+
+**What we did:**  
+Added a 1b image grid and full train/test format check, then added 1c dataset loading, one-hot labels, normalization, and image-count reporting. Copilot reviewed the notebook and confirmed that `PROJECT_STATE.md` reflects the current status.
+
+**Why:**  
+Confirm the model's input shape and keep validation separate from the final test set.
+
+**Important code/concept:**  
+Images use shape `(48, 48, 1)`; `image_dataset_from_directory` creates grayscale batches with categorical labels; named `normaliser` scales pixels by 255.
+
+**Result:**  
+The 1b cell ran locally: all 35,887 images are 48×48, PIL mode `L`, `.jpg`, with no exceptions. The 1c cell is valid Python and notebook JSON, but awaits Colab execution because TensorFlow is not installed locally; expected counts are 22,968 / 5,741 / 7,178.
+
+**Decision:**  
+CONTINUE — confirm the 1c batch shapes, pixel range, and counts in Colab before proceeding to the dense baseline.
+
+**Problems encountered:**  
+The 1c explanation initially overstated normalization as preventing exploding gradients; it was corrected to describe improved training stability and typical speed-up without making that guarantee.
+
+**Reviewer:**  
+Copilot: PASS.
+
+**Presentation material:**  
+- FER2013 images are already 48×48 grayscale, so the input shape is `(48, 48, 1)`.
+- Validation tunes/monitors training; the test split remains reserved for final evaluation.
+
