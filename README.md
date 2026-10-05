@@ -6,6 +6,8 @@ Développer un modèle de deep learning pour reconnaître les 7 expressions faci
 ## Dataset
 Les statistiques du dataset (nombre d'images et répartition par split/classe) seront mesurées en Partie 1.
 
+Téléchargement : la cellule 0 du notebook récupère automatiquement FER2013 dans `data/fer2013/` s'il manque (`kagglehub` — déjà installé sur Colab, `pip install kagglehub` en local).
+
 ## Structure
 ```
 pro/

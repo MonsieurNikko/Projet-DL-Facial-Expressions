@@ -21,7 +21,7 @@ Phase 1 — Dataset research and understanding.
 ## Current microtask
 
 Part 1 / micro-step 1c — build train/val/test `tf.data` datasets (grayscale, one-hot, 80/20 split seed 42, /255 normalisation). Written; awaiting execution in Colab (TensorFlow not installed locally). Expected: batch (64, 48, 48, 1) / (64, 7), pixels in [0, 1], 22,968 / 5,741 / 7,178 images.
-Done: 1a (inventory) and 1b (example grid + format check, Copilot PASS after unreadable-file fix).
+Done: 1a (inventory), 1b (example grid + format check, Copilot PASS after unreadable-file fix), and 0 (auto-download via kagglehub).
 Colab run owner: Student B (Simon); reviewer: Student A (Nikko).
 
 
@@ -89,6 +89,7 @@ No experiments yet.
 - FER2013 (`msambare/fer2013`) approved by the students.
 - The notebook is built progressively, one cell per microtask. The premature skeleton was removed (Copilot PASS).
 - Secrets and data are ignored by Git.
+- Data download: notebook step 0 uses kagglehub (msambare/fer2013, no kaggle.json needed); idempotent, copies train/test into data/fer2013/.
 
 
 ## Repository
@@ -123,7 +124,6 @@ TBD
 
 - License details remain to be verified in Part 1.
 - The reference commit `95fcc08` provides a Git baseline for reviews.
-- The Colab download method (Kaggle API or Drive upload) has not been decided; it is not needed for local micro-step 1a.
 
 
 
