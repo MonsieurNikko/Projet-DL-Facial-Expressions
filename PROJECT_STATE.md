@@ -20,9 +20,9 @@ Phase 1 — Dataset research and understanding.
 
 ## Current microtask
 
-Part 1 / micro-step 1a — explore the directory tree only (not started).
-Owner: Student A; Reviewer: Student B.
-Blocked by the prerequisites listed in Open issues.
+Part 1 / micro-step 1a — inspect the FER2013 directory tree and count `.jpg` images by class. Completed; Copilot code review: PASS.
+Owner: Student A (Nikko); Student reviewer: Student B (Simon).
+The notebook cell was executed locally. The Colab download method remains undecided.
 
 
 ## Assignment progress
@@ -51,16 +51,22 @@ License:
 TBD
 
 Number of images:
-à mesurer en Partie 1
+35,887 total — 28,709 train and 7,178 test (verified by executing the notebook cell).
 
-Classes:
-à mesurer en Partie 1 (FER2013 a 7 classes : angry, disgust, fear, happy, neutral, sad, surprise)
+Classes and image counts (train / test):
+- angry: 3,995 / 958
+- disgust: 436 / 111
+- fear: 4,097 / 1,024
+- happy: 7,215 / 1,774
+- neutral: 4,965 / 1,233
+- sad: 4,830 / 1,247
+- surprise: 3,171 / 831
 
 Image dimensions:
 à mesurer en Partie 1
 
 Class balance:
-à mesurer en Partie 1
+Imbalanced; `disgust` is the smallest class and `happy` the largest in both splits. No model impact has been measured yet.
 
 
 ## Current model
@@ -87,10 +93,11 @@ No experiments yet.
 
 ## Repository
 
-- Local Git repository initialized on branch `main`; no commits and no remote.
-- Git tracks no files; all non-ignored repository files are untracked.
-- `notebooks/` is empty.
-- No `data/` directory or local `~/.kaggle/kaggle.json`; FER2013 has not been downloaded.
+- Local Git repository initialized on branch `main`; reference commit `95fcc08 chore: initial reference commit`; no remote.
+- Git tracks `.gitignore`, `.hermes.md`, `PROJECT_CONTEXT.md`, `PROJECT_JOURNAL.md`, `PROJECT_STATE.md`, and `README.md`; `notebooks/` is currently untracked.
+- `notebooks/fer2013_expressions.ipynb` contains three cells (title, 1a explanation, 1a code) and is currently untracked.
+- `data/fer2013/` is extracted locally and ignored by Git; the train/test image counts are recorded above.
+- `data/raw/fer2013.zip` is the only ZIP archive currently present in `data/raw/`; the three other archives were removed.
 - The assignment PDF is in `docs/` and ignored by Git (`docs/*.pdf`).
 - `.gitignore` covers `.env`, `kaggle.json`, `data/`, `models/`, `*.zip`, caches, and `.DS_Store`.
 
@@ -115,14 +122,12 @@ TBD
 
 ## Open issues
 
-- Dataset statistics, class balance, dimensions, and license details remain to be verified in Part 1.
-- No reference commit exists, so reviews cannot yet rely on `git diff`.
-- Part 1a prerequisites are unmet: the dataset is unavailable (no `data/` and no Kaggle credentials). The Colab download method has not been decided.
-- The rules were refactored: CODEX_GATE is mandatory before starting 1a.
+- Image counts and class balance were verified in 1a; image dimensions and license details remain to be verified in Part 1.
+- The reference commit `95fcc08` provides a Git baseline for reviews.
+- The Colab download method (Kaggle API or Drive upload) has not been decided; it is not needed for local micro-step 1a.
+
 
 
 ## Next candidate step
 
-No further implementation step is approved; reassess after micro-step 1a is completed and reviewed.
-
-Micro-step 1a scope: explore the directory tree only; no image counting, table, or other notebook cell.
+Candidate: Part 1 / micro-step 1b — inspect example images and verify their dimensions and grayscale format. Wait for the next user `go` before implementation.

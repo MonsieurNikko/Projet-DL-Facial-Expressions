@@ -130,3 +130,71 @@ Copilot: PASS.
 - Le notebook sera construit progressivement plutôt que prérempli.
 - Les statistiques seront mesurées pendant l'analyse réelle du dataset.
 
+---
+
+### 2026-10-05 — Commit de référence Git
+
+**Phase:**
+Préparation du dépôt avant la Partie 1.
+
+**Goal:**
+Créer un point de référence propre pour les revues différentielles.
+
+**Owner:**
+Tiny Local Worker ; Reviewer : Copilot.
+
+**What we did:**
+Créé le commit initial `95fcc08` avec les six fichiers du projet et la règle `.gitignore` `*.pdf`.
+
+**Why:**
+Permettre de comparer les prochaines modifications et empêcher l'ajout du PDF de l'énoncé.
+
+**Result:**
+Un commit sur `main`, arbre de travail propre ; le PDF est ignoré (code 0), et aucun PDF, ZIP, jeu de données ou identifiant Kaggle n'est suivi. Le contrôle de `.hermes.md` n'a trouvé que des mentions de règles sur secrets/tokens, pas de valeur de secret.
+
+**Decision:**
+KEEP.
+
+**Reviewer:**
+Copilot: PASS.
+
+**Presentation material:**
+- Le commit de référence permet des revues de code basées sur le diff.
+- Les données locales et PDF sont exclus du suivi Git.
+
+### 2026-10-05 — FER2013 directory inventory (micro-step 1a)
+
+**Phase:**  
+Part 1 — Dataset research and understanding.
+
+**Goal:**  
+Verify the extracted dataset layout and per-class image counts before loading data.
+
+**Owner:**  
+Student A (Nikko; assigned owner); implementation worker.
+
+**What we did:**  
+Added a `pathlib`-only notebook cell that lists sorted class folders and counts `.jpg` files in `train` and `test`.
+
+**Why:**  
+Class folders provide labels, and checking the directory layout first keeps the data-loading step grounded in the actual dataset.
+
+**Important code/concept:**  
+Notebook cell 1a; folder names as class labels.
+
+**Result:**  
+The notebook JSON is valid; the 13-line code cell executed successfully from the project root and reported 28,709 train images and 7,178 test images, with seven class counts in each split.
+
+**Decision:**  
+KEEP — proceed to the next Part 1 micro-step only when assigned.
+
+**Problems encountered:**  
+The initial count matched every directory entry; it was narrowed to `*.jpg` so the displayed value explicitly counts images. The totals remained unchanged.
+
+**Reviewer:**  
+Copilot: PASS.
+
+**Presentation material:**  
+- FER2013's directory names map to the seven expression labels.
+- The training split is imbalanced: `disgust` has 436 images while `happy` has 7,215; later evaluation should consider class-wise performance.
+
