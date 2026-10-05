@@ -1,0 +1,132 @@
+# Project Journal — Facial Expression Recognition
+
+Purpose:
+Maintain a concise chronological history of validated project work.
+
+This file is NOT a raw chat log.
+
+Only record meaningful validated milestones, decisions, experiments,
+results and corrections.
+
+It will later be used to:
+- reconstruct the project journey;
+- prepare the oral presentation;
+- explain why decisions were made;
+- show experiments and improvements;
+- divide presentation sections between both students.
+
+---
+
+## Entry format
+
+### YYYY-MM-DD — <short title>
+
+**Phase:**  
+Part X — ...
+
+**Goal:**  
+What were we trying to achieve?
+
+**Owner:**  
+Student A / Student B / Both
+
+**What we did:**  
+Short factual summary.
+
+**Why:**  
+Reason for the chosen approach.
+
+**Important code/concept:**  
+Function, notebook cell, model block or Deep Learning concept involved.
+
+**Result:**  
+Measured result or concrete outcome.
+
+**Decision:**  
+KEEP / REJECT / CONTINUE / INVESTIGATE
+
+**Problems encountered:**  
+Only important problems and how they were solved.
+
+**Reviewer:**  
+Copilot: PASS / NEEDS_DISCUSSION
+
+**Presentation material:**  
+1–3 points potentially useful for the final slides or oral defence.
+
+---
+---
+### 2026-10-05 — Dataset Selection
+
+**Phase:**  
+Part 1 — Dataset research and understanding.
+
+**Goal:**  
+Select a public facial expression recognition dataset for the project.
+
+**Owner:**  
+Both
+
+**What we did:**  
+Selected FER2013 dataset as the primary data source for facial expression recognition.
+
+**Why:**  
+FER2013 is a well-established, publicly available dataset. **NOTE: La source initiale (Kaggle abellamit) est incorrecte ; source correcte est `msambare/fer2013`.**
+
+**Important code/concept:**  
+None yet - dataset selection is a research step.
+
+**Result:**  
+FER2013 dataset selected ; **à mesurer en Partie 1** (source : `msambare/fer2013`).
+
+**Decision:**  
+KEEP (source corrigée en msambare/fer2013)
+
+**Problems encountered:**  
+- Initial source link incorrect ; corrected to `msambare/fer2013`.
+- Chiffres initiaux erronés (3 expressions, 3 582 images, ratio 4:1) ; **à mesurer en Partie 1**.
+
+**Reviewer:**  
+En attente de mesures réelles en Partie 1.
+
+**Presentation material:**  
+**à mesurer en Partie 1** — ne pas utiliser pour la présentation avant ce comptage.
+
+---
+
+### 2026-10-05 — Suppression du squelette de notebook prématuré
+
+**Phase:**  
+Préparation de la structure du dépôt, avant la Partie 1.
+
+**Goal:**  
+Garder le notebook vide de code jusqu'à la construction incrémentale avec les étudiants.
+
+**Owner:**  
+Implementation Worker (suppression) ; Copilot (revue et documentation).
+
+**What we did:**  
+Supprimé le squelette de notebook prérempli sans créer de nouveau notebook ni modifier le code de dataset ou de modèle ; mis à jour README et PROJECT_STATE.
+
+**Why:**  
+Le squelette contenait déjà du comptage d'images et des étapes ultérieures, avant l'exploration d'arborescence prévue en 1a.
+
+**Important code/concept:**  
+Construire le notebook progressivement ; la micro-étape 1a se limite à explorer l'arborescence.
+
+**Result:**  
+Le dossier `notebooks/` est vide ; la vérification globale ne trouve plus le squelette ni son symbole de comptage. FER2013 est documenté comme APPROVED et les statistiques restent à mesurer en Partie 1.
+
+**Decision:**  
+KEEP — commencer par 1a ; ne pas ajouter de comptage, tableau ou autre cellule dans cette étape.
+
+**Problems encountered:**  
+Un squelette avait anticipé des travaux postérieurs ; il a été retiré avant le démarrage de la Partie 1.
+
+**Reviewer:**  
+Copilot: PASS.
+
+**Presentation material:**  
+- Le notebook sera construit progressivement plutôt que prérempli.
+- Les statistiques seront mesurées pendant l'analyse réelle du dataset.
+
