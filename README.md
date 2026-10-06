@@ -1,27 +1,25 @@
-# Projet DL: Reconnaissance d'expressions faciales (FER2013)
+# Projet DL : Reconnaissance d'expressions faciales (FER2013)
 
 ## Objectif
-Développer un modèle de deep learning pour reconnaître les 7 expressions faciales sur le dataset FER2013.
+Développer un modèle de deep learning qui reconnaît les 7 expressions faciales du dataset FER2013.
 
-## Dataset
-Les statistiques du dataset (nombre d'images et répartition par split/classe) seront mesurées en Partie 1.
-
-Téléchargement : la cellule 0 du notebook récupère automatiquement FER2013 dans `data/fer2013/` s'il manque (`kagglehub` — déjà installé sur Colab, `pip install kagglehub` en local).
+## Lancer le notebook
+Ouvrir `notebooks/fer2013_expressions.ipynb` dans Google Colab (GPU activé) et exécuter les cellules dans l'ordre.
+L'étape 0 télécharge automatiquement FER2013 dans `data/fer2013/` s'il manque (`kagglehub`, déjà installé sur Colab ; `pip install kagglehub` en local).
 
 ## Structure
 ```
-pro/
-├── .gitignore
-├── PROJECT_STATE.md
-├── PROJECT_CONTEXT.md
-├── PROJECT_JOURNAL.md
-├── notebooks/  # notebook à construire progressivement
-├── docs/
-│   └── Projet_DL_Expressions_faciales (1).pdf
-├── .hermes.md
-└── README.md
+.
+├── .claude/skills/      # instructions réutilisables pour les assistants IA
+├── AGENTS.md            # règles pour tout assistant IA (CLAUDE.md y renvoie)
+├── CLAUDE.md
+├── PROJECT_STATE.md     # état actuel du projet
+├── PROJECT_JOURNAL.md   # historique validé (pour l'oral)
+├── notebooks/
+│   └── fer2013_expressions.ipynb
+├── docs/                # énoncé PDF (non versionné)
+└── data/                # dataset local (non versionné)
 ```
 
 ## Règles
-- Ne jamais committer `data/` ou `kaggle.json` (clé Kaggle).
-- Pas de code dans `src/` pour l'instant.
+- Ne jamais committer `data/`, `models/` ou `kaggle.json`.
