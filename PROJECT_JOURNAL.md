@@ -293,3 +293,38 @@ message cost several model calls.
 **Decision:**  
 KEEP. Shared memory across tools to be revisited later if needed; for now the
 memory is `PROJECT_STATE.md` + this journal.
+
+### 2026-10-06 — Dense baseline (Part 2) and train shuffling fix
+
+**Phase:**  
+Part 2 — Dense baseline.
+
+**Goal:**  
+Get a reference score that the CNN must beat.
+
+**Owner:**  
+Student A (Nikko); reviewer: Student B (Simon).
+
+**What we did:**  
+Added a dense network (Flatten → Dense 256 → Dense 128 → softmax 7, 623,879
+parameters), trained it for 20 fixed epochs on train with validation
+monitoring, plotted the learning curves and compared the validation accuracy
+with two references: chance (1/7 ≈ 14 %) and always predicting the majority
+class (≈ 25 % for `happy`).
+
+**Problems encountered:**  
+`.cache()` on the training set froze the batch order of the first epoch, so
+the images were no longer reshuffled between epochs (checked by iterating the
+dataset twice). Fixed by caching only the validation and test sets.
+
+**Result:**  
+Runs end to end on a synthetic dataset; validation accuracy on real data to
+be measured in Colab.
+
+**Decision:**  
+CONTINUE — run in Colab, then Part 3 (CNN).
+
+**Presentation material:**  
+- A dense network loses the notion of neighbouring pixels after `Flatten`;
+  this motivates the CNN.
+- Compare against chance and the majority class, not only against 0 %.

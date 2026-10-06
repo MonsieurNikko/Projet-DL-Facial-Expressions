@@ -33,13 +33,16 @@ work cycle. History belongs in `PROJECT_JOURNAL.md`.
   (works locally and on Colab without a clone).
 - 1a: per-class counts. 1b: example grid + format check.
 - 1c: `tf.data` train/val/test, one-hot labels, /255 normalisation,
-  cache + prefetch.
-- Verified on a synthetic dataset; **still to run in Colab on real data**.
+  prefetch (cache on val/test only, so train is reshuffled every epoch).
+- Part 2: dense baseline (Flatten → Dense 256 → Dense 128 → softmax 7,
+  623,879 parameters), Adam + categorical cross-entropy, 20 fixed epochs,
+  learning curves, validation accuracy vs chance and majority-class references.
+- Verified end to end on a synthetic dataset; **still to run in Colab on real data**.
 
 ## Progress
 
 - [ ] Part 1 — Dataset research and preparation (code done, Colab run pending)
-- [ ] Part 2 — Dense baseline
+- [ ] Part 2 — Dense baseline (code done, Colab run pending)
 - [ ] Part 3 — CNN
 - [ ] Part 4 — Training
 - [ ] Part 5 — Evaluation and error analysis
@@ -49,13 +52,14 @@ Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
 
 ## Current model and results
 
-None yet.
+Dense baseline written; validation accuracy to be measured in Colab.
 
 ## Open issues
 
 - Verify the dataset license.
-- Run the notebook once in Colab and check the counts printed by 1c.
+- Run the notebook in Colab: check the counts printed by 1c and record the
+  baseline validation accuracy (and whether the curves show overfitting).
 
 ## Next step
 
-Run Part 1 in Colab, then Part 2 — dense baseline.
+Run Parts 1–2 in Colab, then Part 3 — CNN.
