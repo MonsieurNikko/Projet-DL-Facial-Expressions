@@ -328,3 +328,32 @@ CONTINUE — run in Colab, then Part 3 (CNN).
 - A dense network loses the notion of neighbouring pixels after `Flatten`;
   this motivates the CNN.
 - Compare against chance and the majority class, not only against 0 %.
+
+### 2026-10-06 — Notebook aligned with the assignment PDF
+
+**Phase:**  
+Parts 1–2.
+
+**Goal:**  
+Cover every item the assignment asks for in Parts 1 and 2.
+
+**What we did:**  
+- Part 1: dataset description cell (source, authors, licence DbCL v1.0,
+  collection method, counts, classes, size, format, imbalance) and a
+  class-distribution bar chart in 1a.
+- Part 2: baseline reduced to the assignment's scheme (Flatten → Dense 128 ReLU
+  → Dense 7 softmax, 295,943 parameters); theory cell on weights and biases,
+  forward pass, activations, loss, backpropagation and gradient descent; 2d
+  shows the 7 softmax probabilities for one validation image.
+- Intro cell now names Nikko and Simon.
+
+**Why:**  
+The PDF lists what must be shown and explained; the licence, the authors, the
+imbalance chart and the learning theory were missing.
+
+**Decision:**  
+KEEP.
+
+**Presentation material:**  
+- Class-distribution chart: `disgust` has ≈ 16.5× fewer training images than `happy`.
+- Loss example: probability 0.72 on the true class gives L ≈ 0.33; 0.05 gives L ≈ 3.0.

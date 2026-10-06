@@ -36,6 +36,8 @@ Sans GPU, l'entraînement est nettement plus lent : Colab est recommandé.
 
 [FER2013 sur Kaggle](https://www.kaggle.com/datasets/msambare/fer2013)
 (`msambare/fer2013`) — 35 887 images 48×48 en niveaux de gris, une classe par dossier.
+Licence : Database Contents License (DbCL) v1.0. Auteurs : Pierre-Luc Carrier et
+Aaron Courville ([Goodfellow et al., 2013](https://arxiv.org/abs/1307.0414)).
 
 | Classe   | Train | Test  |
 |----------|------:|------:|

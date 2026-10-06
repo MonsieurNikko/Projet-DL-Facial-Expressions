@@ -9,7 +9,9 @@ work cycle. History belongs in `PROJECT_JOURNAL.md`.
   explain the whole project orally.
 - Deadline: **2026-10-09**.
 - Stack: Python, Keras/TensorFlow, Google Colab (GPU) for every run.
-- Dataset: FER2013, Kaggle `msambare/fer2013` (approved). License: to verify.
+- Dataset: FER2013, Kaggle `msambare/fer2013` (approved). Licence: Database
+  Contents License (DbCL) v1.0 (Kaggle page). Authors: Pierre-Luc Carrier and
+  Aaron Courville, ICML 2013 challenge (Goodfellow et al., arXiv:1307.0414).
 - Local workspace: `/Users/Nikko/Documents/code/pro`.
 - GitHub remote: `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`
   (**private**), branch `main`. Colab needs GitHub authorization to open it. Ask the humans before pushing.
@@ -64,12 +66,17 @@ What each part must show or explain:
 
 - Step 0: shared constants, global seed, idempotent kagglehub download
   (works locally and on Colab without a clone).
-- 1a: per-class counts. 1b: example grid + format check.
+- Part 1 description cell: source, authors, licence, collection, counts,
+  classes, size, format, imbalance.
+- 1a: per-class counts + class-distribution bar chart. 1b: example grid + format check.
 - 1c: `tf.data` train/val/test, one-hot labels, /255 normalisation,
   prefetch (cache on val/test only, so train is reshuffled every epoch).
-- Part 2: dense baseline (Flatten → Dense 256 → Dense 128 → softmax 7,
-  623,879 parameters), Adam + categorical cross-entropy, 20 fixed epochs,
-  learning curves, validation accuracy vs chance and majority-class references.
+- Part 2: dense baseline as in the assignment (Flatten → Dense 128 ReLU →
+  Dense 7 softmax, 295,943 parameters), Adam + categorical cross-entropy,
+  20 fixed epochs; theory cell (weights/biases, forward pass, activations,
+  loss, backpropagation, gradient descent, multiclass output); learning
+  curves; validation accuracy vs chance and majority class; 2d shows the 7
+  probabilities for one validation image.
 - Verified end to end on a synthetic dataset; **still to run in Colab on real data**.
 
 ## Progress
@@ -89,10 +96,6 @@ Dense baseline written; validation accuracy to be measured in Colab.
 
 ## Open issues
 
-- Verify the dataset licence on the Kaggle page (required in Part 1).
-- Part 1 still lacks a dataset description cell (source, authors, licence) and
-  a class-distribution chart; Part 2 lacks the theory cell (weights/biases,
-  forward pass, backpropagation, gradient descent).
 - Run the notebook in Colab: check the counts printed by 1c and record the
   baseline validation accuracy (and whether the curves show overfitting).
 
