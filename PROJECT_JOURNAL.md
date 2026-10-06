@@ -273,3 +273,22 @@ KEEP.
 **Presentation material:**  
 - Fixing the seed makes experiments comparable.
 - Keeping the test set untouched until the final evaluation.
+
+### 2026-10-06 — Switch to a single assistant
+
+**Goal:**  
+Stop the slow, forgetful group chat.
+
+**What we did:**  
+Replaced the five-agent setup (Claude, Codex, MiMo, Qwen, Copilot) with one
+assistant that plans, codes, explains and updates the docs. A second model is
+consulted by hand only at key decisions. `.hermes.md` rewritten accordingly.
+
+**Why:**  
+In Hermes group chats every bot takes a turn when nobody is mentioned, and each
+bot keeps its own isolated memory, so context was lost between agents and every
+message cost several model calls.
+
+**Decision:**  
+KEEP. Shared memory across tools to be revisited later if needed; for now the
+memory is `PROJECT_STATE.md` + this journal.
