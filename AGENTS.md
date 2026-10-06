@@ -49,6 +49,14 @@ a one-round critique.
 - Code, comments and docs stay neutral: never mention an AI assistant or
   tool by name.
 
+## README
+
+The README is for people who want to use the project, not a story of how it
+was built. Keep only: what the project does, how to run it (Colab and local),
+the dataset, the notebook contents, the results, the structure and common
+problems. No development history, workflow, agents or decisions — those
+belong in `PROJECT_JOURNAL.md`. Update the results section once measured.
+
 ## Deep-learning rules
 
 - Validation for tuning and experiments; the test set is used **once**,
