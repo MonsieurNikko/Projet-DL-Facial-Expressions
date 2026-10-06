@@ -253,7 +253,7 @@ Claude (Claude Code, `ponytail-audit` + `mle-workflow` skills).
   the repository is not cloned.
 - 1a/1b/1c reuse these constants; 1b counts formats with `collections.Counter`;
   1c adds `.cache().prefetch()`.
-- `.hermes.md` reduced from ~590 to ~80 lines; Codex only at decision points,
+- `.hermes.md` reduced from ~590 to ~70 lines; Codex only at decision points,
   Copilot review once per Part, Qwen optional.
 - `PROJECT_CONTEXT.md` merged into `PROJECT_STATE.md`; contradictions fixed
   (remote exists, `part3_cnn.ipynb` never existed).
