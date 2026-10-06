@@ -1,132 +1,61 @@
 # Project State — Facial Expression Recognition
 
-## Goal
+Single source of truth for the current state. Update it at the end of each
+work cycle. History belongs in `PROJECT_JOURNAL.md`.
 
-Build and understand a Deep Learning system for facial-expression recognition
-for the university project.
+## Stable facts
 
-Final deliverables:
-- commented Google Colab notebook;
-- presentation;
-- final model demonstration.
+- Students: Nikko (Student A), Simon (Student B). Both must be able to
+  explain the whole project orally.
+- Deadline: **2026-10-09**.
+- Stack: Python, Keras/TensorFlow, Google Colab (GPU) for every run.
+- Dataset: FER2013, Kaggle `msambare/fer2013` (approved). License: to verify.
+- Deliverables: commented Colab notebook, presentation, final model demo.
+- Local workspace: `/Users/Nikko/Documents/code/pro`.
+- GitHub remote: `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`,
+  branch `main`. Ask the humans before pushing.
+- Assignment PDF: `docs/` (ignored by Git).
 
-Both students must understand and be able to explain the project.
+## Dataset (measured)
 
+- 35,887 images: 28,709 train / 7,178 test. All 48×48, grayscale, `.jpg`.
+- Train / test per class:
+  angry 3,995 / 958 · disgust 436 / 111 · fear 4,097 / 1,024 ·
+  happy 7,215 / 1,774 · neutral 4,965 / 1,233 · sad 4,830 / 1,247 ·
+  surprise 3,171 / 831.
+- Strong imbalance: `disgust` has ~16× fewer images than `happy`.
+- Splits: train 22,968 / validation 5,741 (20 % of train, seed 42) /
+  test 7,178 (final evaluation only).
 
-## Current phase
+## Notebook — `notebooks/fer2013_expressions.ipynb`
 
-Phase 1 — Dataset research and understanding.
+- Step 0: shared constants, global seed, idempotent kagglehub download
+  (works locally and on Colab without a clone).
+- 1a: per-class counts. 1b: example grid + format check.
+- 1c: `tf.data` train/val/test, one-hot labels, /255 normalisation,
+  cache + prefetch.
+- Verified on a synthetic dataset; **still to run in Colab on real data**.
 
+## Progress
 
-## Current microtask
-
-Part 1 / micro-step 1c — build train/val/test `tf.data` datasets (grayscale, one-hot, 80/20 split seed 42, /255 normalisation). Written; awaiting execution in Colab (TensorFlow not installed locally). Expected: batch (64, 48, 48, 1) / (64, 7), pixels in [0, 1], 22,968 / 5,741 / 7,178 images.
-Done: 1a (inventory), 1b (example grid + format check, Copilot PASS after unreadable-file fix), and 0 (auto-download via kagglehub).
-Colab run owner: Student B (Simon); reviewer: Student A (Nikko).
-
-
-## Assignment progress
-
-- [ ] Part 1 — Dataset research and preparation
+- [ ] Part 1 — Dataset research and preparation (code done, Colab run pending)
 - [ ] Part 2 — Dense baseline
 - [ ] Part 3 — CNN
 - [ ] Part 4 — Training
 - [ ] Part 5 — Evaluation and error analysis
 - [ ] Part 6 — At least 3 experiments
 
-Optional later:
-- [ ] Part 7 — Enrichment
-- [ ] Part 8 — Multi-face detection / YOLO
-- [ ] Part 9 — Video
+Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
 
-
-## Dataset
-
-Status: APPROVED — FER2013 (Facial Expression Recognition using FER2013)
-
-Source:
-`msambare/fer2013`
-
-License:
-TBD
-
-Number of images:
-35,887 total — 28,709 train and 7,178 test (verified by executing the notebook cell).
-
-Classes and image counts (train / test):
-- angry: 3,995 / 958
-- disgust: 436 / 111
-- fear: 4,097 / 1,024
-- happy: 7,215 / 1,774
-- neutral: 4,965 / 1,233
-- sad: 4,830 / 1,247
-- surprise: 3,171 / 831
-
-Image dimensions:
-All 35,887 images are 48×48, grayscale (PIL mode L), `.jpg` (verified in 1b). Network input: (48, 48, 1).
-
-Class balance:
-Imbalanced; `disgust` is the smallest class and `happy` the largest in both splits. No model impact has been measured yet.
-
-
-## Current model
+## Current model and results
 
 None yet.
 
-
-## Current results
-
-No training performed yet.
-
-
-## Experiments
-
-No experiments yet.
-
-
-## Important decisions
-
-- FER2013 (`msambare/fer2013`) approved by the students.
-- The notebook is built progressively, one cell per microtask. The premature skeleton was removed (Copilot PASS).
-- Secrets and data are ignored by Git.
-- Data download: notebook step 0 uses kagglehub (msambare/fer2013, no kaggle.json needed); idempotent, copies train/test into data/fer2013/.
-
-
-## Repository
-
-- Public GitHub remote `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`, branch `main` (commits `feeb05b` 1a, `4e9bb38` 1b).
-- `notebooks/fer2013_expressions.ipynb` holds steps 1a–1c; Simon works in `notebooks/part3_cnn.ipynb`.
-- `data/fer2013/` is extracted locally and ignored by Git; the train/test image counts are recorded above.
-- `data/raw/fer2013.zip` is the only ZIP archive currently present in `data/raw/`; the three other archives were removed.
-- The assignment PDF is in `docs/` and ignored by Git (`docs/*.pdf`).
-- `.gitignore` covers `.env`, `kaggle.json`, `data/`, `models/`, `*.zip`, caches, and `.DS_Store`.
-
-
-## Student responsibilities
-
-### Student A
-Current responsibility:
-TBD
-
-Concepts already understood:
-TBD
-
-
-### Student B
-Current responsibility:
-TBD
-
-Concepts already understood:
-TBD
-
-
 ## Open issues
 
-- License details remain to be verified in Part 1.
-- The reference commit `95fcc08` provides a Git baseline for reviews.
+- Verify the dataset license.
+- Run the notebook once in Colab and check the counts printed by 1c.
 
+## Next step
 
-
-## Next candidate step
-
-Candidate: validate 1c in Colab, commit 1b+1c, then Part 2 — dense baseline. Wait for the next user `go` before implementation.
+Run Part 1 in Colab, then Part 2 — dense baseline.

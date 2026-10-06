@@ -234,3 +234,42 @@ Copilot: PASS.
 - FER2013 images are already 48×48 grayscale, so the input shape is `(48, 48, 1)`.
 - Validation tunes/monitors training; the test split remains reserved for final evaluation.
 
+
+### 2026-10-06 — Refactor of the notebook and the team workflow
+
+**Phase:**  
+Part 1 — Dataset research and preparation.
+
+**Goal:**  
+Remove duplication, make the notebook run on Colab, and cut the agent overhead
+that was slowing the project down.
+
+**Owner:**  
+Claude (Claude Code, `ponytail-audit` + `mle-workflow` skills).
+
+**What we did:**  
+- Step 0 now defines the shared constants once (`DATA_DIR`, `CLASS_NAMES`,
+  `IMAGE_SIZE`, `SEED`), sets a global seed and no longer fails on Colab when
+  the repository is not cloned.
+- 1a/1b/1c reuse these constants; 1b counts formats with `collections.Counter`;
+  1c adds `.cache().prefetch()`.
+- `.hermes.md` reduced from ~590 to ~80 lines; Codex only at decision points,
+  Copilot review once per Part, Qwen optional.
+- `PROJECT_CONTEXT.md` merged into `PROJECT_STATE.md`; contradictions fixed
+  (remote exists, `part3_cnn.ipynb` never existed).
+
+**Why:**  
+Each agent re-read ~8k tokens of rules on every turn and every cell went
+through 6–8 agent calls; Part 1 took a full evening with 3 days left.
+
+**Result:**  
+Notebook executed end to end on a synthetic dataset with the same folder
+layout (format anomaly detected, batch shapes (64, 48, 48, 1) / (64, 7),
+pixels in [0, 1]). Real-data run in Colab still pending.
+
+**Decision:**  
+KEEP.
+
+**Presentation material:**  
+- Fixing the seed makes experiments comparable.
+- Keeping the test set untouched until the final evaluation.
