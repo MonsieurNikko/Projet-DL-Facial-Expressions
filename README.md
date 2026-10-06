@@ -10,6 +10,9 @@ Projet de cours — Nikko et Simon.
 
 1. Ouvrir le notebook dans Colab :
    [notebooks/fer2013_expressions.ipynb](https://colab.research.google.com/github/MonsieurNikko/Projet-DL-Facial-Expressions/blob/main/notebooks/fer2013_expressions.ipynb)
+   Le dépôt est privé : la première fois, Colab affiche « Notebook introuvable ».
+   Cliquer sur **Autoriser avec GitHub** et cocher l'accès aux dépôts privés
+   (chaque personne doit être collaboratrice du dépôt).
 2. Activer le GPU : **Exécution → Modifier le type d'exécution → GPU**.
 3. Lancer les cellules dans l'ordre (**Exécution → Tout exécuter**).
 

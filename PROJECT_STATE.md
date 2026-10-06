@@ -12,8 +12,8 @@ work cycle. History belongs in `PROJECT_JOURNAL.md`.
 - Dataset: FER2013, Kaggle `msambare/fer2013` (approved). License: to verify.
 - Deliverables: commented Colab notebook, presentation, final model demo.
 - Local workspace: `/Users/Nikko/Documents/code/pro`.
-- GitHub remote: `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`,
-  branch `main`. Ask the humans before pushing.
+- GitHub remote: `origin` = `MonsieurNikko/Projet-DL-Facial-Expressions`
+  (**private**), branch `main`. Colab needs GitHub authorization to open it. Ask the humans before pushing.
 - Assignment PDF: `docs/` (ignored by Git).
 
 ## Dataset (measured)
