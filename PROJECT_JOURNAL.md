@@ -245,7 +245,7 @@ Remove duplication, make the notebook run on Colab, and cut the agent overhead
 that was slowing the project down.
 
 **Owner:**  
-Claude (Claude Code, `ponytail-audit` + `mle-workflow` skills).
+AI assistant (`ponytail-audit` + `mle-workflow` skills).
 
 **What we did:**  
 - Step 0 now defines the shared constants once (`DATA_DIR`, `CLASS_NAMES`,
@@ -253,7 +253,7 @@ Claude (Claude Code, `ponytail-audit` + `mle-workflow` skills).
   the repository is not cloned.
 - 1a/1b/1c reuse these constants; 1b counts formats with `collections.Counter`;
   1c adds `.cache().prefetch()`.
-- `.hermes.md` reduced from ~590 to ~70 lines; Codex only at decision points,
+- Team rules reduced from ~590 to ~70 lines; Codex only at decision points,
   Copilot review once per Part, Qwen optional.
 - `PROJECT_CONTEXT.md` merged into `PROJECT_STATE.md`; contradictions fixed
   (remote exists, `part3_cnn.ipynb` never existed).
@@ -280,12 +280,13 @@ KEEP.
 Stop the slow, forgetful group chat.
 
 **What we did:**  
-Replaced the five-agent setup (Claude, Codex, MiMo, Qwen, Copilot) with one
-assistant that plans, codes, explains and updates the docs. A second model is
-consulted by hand only at key decisions. `.hermes.md` rewritten accordingly.
+Replaced the five-agent group chat with one assistant that plans, codes,
+explains and updates the docs. A second model is consulted by hand only at key
+decisions. The team rules moved from `.hermes.md` to `AGENTS.md`, a
+tool-neutral file that any assistant can read (`CLAUDE.md` points to it).
 
 **Why:**  
-In Hermes group chats every bot takes a turn when nobody is mentioned, and each
+In the group chat every bot takes a turn when nobody is mentioned, and each
 bot keeps its own isolated memory, so context was lost between agents and every
 message cost several model calls.
 

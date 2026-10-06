@@ -10,8 +10,9 @@ L'étape 0 télécharge automatiquement FER2013 dans `data/fer2013/` s'il manque
 ## Structure
 ```
 .
-├── .claude/skills/      # skills Claude Code (Ponytail, ECC)
-├── .hermes.md           # règles de l'équipe d'agents
+├── .claude/skills/      # instructions réutilisables pour les assistants IA
+├── AGENTS.md            # règles pour tout assistant IA (CLAUDE.md y renvoie)
+├── CLAUDE.md
 ├── PROJECT_STATE.md     # état actuel du projet
 ├── PROJECT_JOURNAL.md   # historique validé (pour l'oral)
 ├── notebooks/

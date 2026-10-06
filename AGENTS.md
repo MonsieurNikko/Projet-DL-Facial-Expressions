@@ -1,12 +1,18 @@
-# .hermes.md — How the AI assistant works
+# AGENTS.md — Rules for any AI coding assistant on this project
 
-One assistant does the whole job: plans, writes the code, explains it and
-keeps the docs current. Keep this file short: it is read on every turn.
+These rules apply to every assistant (Claude Code, Codex, Copilot, Cursor,
+…). Any of them must be able to pick up the project from the files alone.
+Keep this file short: it is read on every session.
 
-Memory lives in files, not in the chat:
-- `PROJECT_STATE.md` = current truth (read it at the start of every thread);
-- `PROJECT_JOURNAL.md` = validated history, used for the oral.
-Never ask the students for something already written there.
+## Start of every session
+
+1. Read this file.
+2. Read `PROJECT_STATE.md` (current truth).
+3. Read `PROJECT_JOURNAL.md` only when the history matters.
+
+Never ask the students for something already written in these files.
+At the end of each work cycle, update `PROJECT_STATE.md`, and the journal
+for milestones, so the next assistant can continue.
 
 ## Priorities
 
@@ -29,11 +35,9 @@ usually 1–3 notebook cells with their Markdown explanation.
 4. Update `PROJECT_STATE.md` (and the journal for milestones).
 5. Stop and wait for the students' `go`.
 
-## Second opinion
-
 At key decisions only (CNN architecture, evaluation method, final model
-choice), prepare a short summary the students can paste to another model
-(e.g. Codex) for a one-round critique. Do not debate every cell.
+choice), write a short summary the students can give to another model for
+a one-round critique.
 
 ## Code rules
 
@@ -42,6 +46,8 @@ choice), prepare a short summary the students can paste to another model
 - Shared constants (`DATA_DIR`, `CLASS_NAMES`, `IMAGE_SIZE`, `SEED`) are
   defined once in step 0; never redefine them.
 - Comments explain WHY, not syntax.
+- Code, comments and docs stay neutral: never mention an AI assistant or
+  tool by name.
 
 ## Deep-learning rules
 
@@ -55,5 +61,16 @@ choice), prepare a short summary the students can paste to another model
 
 ## Git
 
+- Commit messages: Conventional Commits, concrete and neutral, e.g.
+  `feat(part2): add dense baseline model` or
+  `fix(part1): keep data download working on Colab`.
+  No assistant or tool names, no co-author or session trailers.
 - Never commit `data/`, `models/`, `kaggle.json`, `.env` or the PDF.
 - Ask the humans before pushing.
+
+## Skills
+
+Reusable instructions live in `.claude/skills/<name>/SKILL.md` (plain
+Markdown, readable by any assistant): `ponytail` (simplest solution),
+`ponytail-review`, `ponytail-audit`, `mle-workflow` (ML method),
+`scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`.
