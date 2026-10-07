@@ -82,49 +82,98 @@ What each part must show or explain:
   softmax, 63,623 parameters confirmed by `summary()`), same compilation as
   the baseline; theory cell (filter, kernel size, convolution, feature map,
   stride, padding, ReLU, pooling, Flatten, Dense, output), layer-by-layer
-  table and justification.
-- 4a: CNN training, at most 30 epochs, early stopping on `val_loss`
-  (patience 3, best weights restored); prints CNN vs baseline validation accuracy.
-- 5a: confusion matrix and per-class recall on validation (scikit-learn).
-  5b: one-vs-rest ROC curves with AUC per class on validation.
-- Whole notebook executed end to end on real data, locally on CPU (Apple M4,
-  about 2 minutes); **not yet run in Colab**.
+  table and justification. 3a resets the seed just before building the
+  model, like every Part 6 experiment, so all CNNs start from the same state.
+- Part 4: table justifying loss, optimiser (Adam, lr 0.001), batch size 64,
+  epochs (max 30 + early stopping) and metrics (accuracy, then per-class
+  recall); 4a CNN training with early stopping on `val_loss` (patience 3,
+  best weights restored); 4b learning curves (function `tracer_courbes`,
+  reused in Part 6) + overfitting interpretation.
+- Part 5: 5a confusion matrix and per-class recall; 5b one-vs-rest ROC/AUC;
+  5c top-5 confusions and classes sorted by recall + why; 5d grid of 4 correct
+  and the 8 most confident wrong predictions (true class, predicted class,
+  probabilities) + error analysis. All on validation.
+- Part 6: helpers `entrainer` / `mesurer`; 5 experiments, each changing one
+  thing from the last retained model (E1 Dense 128, E2 Dropout 0.5, E3 third
+  conv block, E4 augmentation, E5 class weights); comparison table printed
+  and in Markdown; final choice E3; its curves; single test evaluation;
+  model saved to `models/modele_final.keras`; demo cell (load model, one
+  image, 7 probabilities).
+- Whole notebook executed end to end on real data, locally on CPU (Windows,
+  TensorFlow 2.21, about 9 minutes, 543 s); same numbers on two consecutive
+  runs. **Not yet run in Colab.** Saved kernel is now the neutral `python3`.
 
 ## Progress
 
 - [ ] Part 1 — Dataset research and preparation (code done, Colab run pending)
 - [ ] Part 2 — Dense baseline (code done, Colab run pending)
 - [x] Part 3 — CNN
-- [ ] Part 4 — Training (4a done; missing: justification of loss, optimiser, batch size, epochs, metrics; CNN learning curves; overfitting comment)
-- [ ] Part 5 — Evaluation and error analysis (5a, 5b done; missing: most confused classes and why, example predictions with probability, including errors)
-- [ ] Part 6 — At least 3 experiments
+- [x] Part 4 — Training (choices justified, curves, overfitting comment)
+- [x] Part 5 — Evaluation and error analysis
+- [x] Part 6 — 5 experiments, table, final model, test evaluation, demo
+  (local run; Colab check pending)
 
 Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
+Presentation slides: not started.
 
 ## Current model and results
 
-Single local run (seed 42, CPU), validation set, 2026-10-07:
+Single local run (seed 42, CPU, Windows, TF 2.21), 2026-10-07. To re-check
+on Colab (GPU may give slightly different numbers).
 
-- Dense baseline: 36.1 % accuracy (chance 14.3 %, always `happy` 24.4 %).
-- CNN (Part 3): 49.7 % accuracy; early stopping after 10 epochs, best
-  `val_loss` 1.327 at epoch 7. Train accuracy kept rising (60 %) while
-  validation stalled near 50 %: overfitting starts around epoch 7.
-- CNN recall per class: angry 41.3 % · disgust 9.6 % (7 / 73) · fear 28.1 % ·
-  happy 72.0 % · neutral 52.8 % · sad 34.1 % · surprise 62.1 %.
+Validation (5,741 images):
 
-Test set not used yet.
+| Model | Change | Val acc | Val loss | Best epoch | Train−val gap | `disgust` recall | Decision |
+|---|---|---:|---:|---:|---:|---:|---|
+| Dense baseline | Part 2 | 36.1 % | | 20 fixed | | | reference |
+| `cnn_base` | Part 3 | 50.3 % | 1.322 | 7 / 10 | +5.8 | 13.7 % | reference |
+| E1 | + Dense(128) | 49.8 % | 1.309 | 5 / 8 | +6.0 | 11.0 % | kept (tie, lower loss) |
+| E2 | + Dropout(0.5) before Dense | 52.3 % | 1.235 | 9 / 12 | +6.6 | 17.8 % | kept |
+| E3 | + 3rd block Conv2D(128) | **57.7 %** | **1.126** | 18 / 21 | +7.8 | 34.2 % | **final model** |
+| E4 | E3 + augmentation | 55.4 % | 1.161 | 16 / 19 | −1.7 | 6.8 % | rejected |
+| E5 | E3 + class_weight | 53.9 % | 1.218 | 20 / 23 | +7.6 | 57.5 % | rejected |
+
+- References: chance 14.3 %, always `happy` 24.4 % (validation).
+- `cnn_base` recall: angry 36.6 · disgust 13.7 · fear 25.0 · happy 73.5 ·
+  neutral 50.4 · sad 44.4 · surprise 60.5 %. Top confusions: neutral→sad 214,
+  fear→sad 192, sad→neutral 182, angry→sad 167, sad→happy 152.
+- E3 recall: angry 46.6 · disgust 34.2 · fear 32.6 · happy 82.0 · neutral
+  57.1 · sad 49.0 · surprise 66.4 %. E5 raises disgust to 57.5 % but lowers
+  happy (73.4), angry (41.4) and fear (28.0).
+
+Test set (used once, final model E3 `e3_3_blocs`, 355,847 parameters):
+**59.3 %** accuracy (loss 1.112, 7,178 images; always `happy` = 24.7 %).
+Recall: angry 48.7 · disgust 33.3 (37 / 111) · fear 35.9 · happy 84.0 ·
+neutral 58.0 · sad 47.8 · surprise 70.5 %.
+
+## Branches (2026-10-07)
+
+- `main`: contains Parts 1–6. Branch `simon` (commit `74b1445`, Parts
+  3–5) was reviewed and fast-forwarded into local `main`; the completed
+  notebook and documentation update was pushed to `origin/main` after approval.
+- `refactor/part1-agent-rules`: already contained in `main`, nothing to merge.
+- `claude/add-claude-skills`: older version superseded by `main`; merging it
+  would remove content (dataset description, student names). Do not merge;
+  can be deleted.
 
 ## Open issues
 
-- Run the notebook in Colab and check the numbers above are reproduced.
-- CNN architecture choices (32 / 64 filters, no hidden Dense layer) were
-  proposed, not yet confirmed by the students.
-- `disgust` is almost never recognised (recall 9.6 %): candidate for a Part 6
-  experiment (class weights or augmentation).
-- The notebook's saved kernel is `monenv` (Simon's local environment); other
-  machines must pick their own kernel.
+- Run the notebook in Colab (Runtime → Run all; about 9 min locally on CPU,
+  probably faster on GPU) and check the numbers above; update the notebook
+  text if they move.
+- Parts 4–6 written without a student run: Nikko and Simon must read and be
+  able to explain every new cell (experiment chain, final choice, test cell).
+- Results come from one seed: differences under 1 point (cnn_base vs E1)
+  are not meaningful.
+- E4 (augmentation) was stopped by patience 3 while still learning slowly;
+  a longer run (more epochs / patience) was not tested. Milder class weights
+  (e.g. square root) for `disgust` not tested either.
+- Commit `74b1445` ("PART 3-4-5") does not follow Conventional Commits;
+  keep the format for the next commits.
 
 ## Next step
 
-Finish Part 4 (justifications, CNN learning curves) and Part 5 (confusion
-analysis, example predictions), then Part 6 experiments.
+Students run the notebook in Colab and review Parts 4–6; then prepare the
+presentation (approach, architectures, experiment table, results, errors)
+and rehearse the demo cell. Commit after review (Conventional Commits),
+push after approval.

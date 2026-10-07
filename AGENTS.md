@@ -17,7 +17,8 @@ for milestones, so the next assistant can continue.
 ## Priorities
 
 1. Current explicit human instruction.
-2. Official assignment PDF (`docs/`).
+2. Official assignment PDF (repo root, `Projet_DL_Expressions_faciales (1).pdf`,
+   not versioned). Read it before planning any part.
 3. This file.
 4. `PROJECT_STATE.md`, then `PROJECT_JOURNAL.md`.
 
@@ -30,7 +31,9 @@ One cycle = one coherent step (e.g. "dense baseline", "training curves"),
 usually 1–3 notebook cells with their Markdown explanation.
 
 1. State WHAT / WHY / OWNER (Nikko or Simon, alternate each step).
-2. Write the cells; the students **run them in Colab** and share the outputs.
+2. Write the cells. An assistant may run them locally (`.venv`, CPU only on
+   Windows) to get real numbers; the students then re-run the whole notebook
+   in Colab with the GPU before the defence.
 3. Explain the key lines and ask one comprehension question.
 4. Update `PROJECT_STATE.md` (and the journal for milestones).
 5. Stop and wait for the students' `go`.
@@ -46,16 +49,48 @@ a one-round critique.
 - Shared constants (`DATA_DIR`, `CLASS_NAMES`, `IMAGE_SIZE`, `SEED`) are
   defined once in step 0; never redefine them.
 - Comments explain WHY, not syntax.
-- Code, comments and docs stay neutral: never mention an AI assistant or
-  tool by name.
+- No shortcuts the students cannot explain: no nested comprehensions, no
+  lambdas, no dense one-liners. A plain `for` loop is better.
+- Code and comments stay neutral: never mention an AI assistant or tool by
+  name. The AI tools used are disclosed openly in the README ("Outils
+  utilisés") and the journal; do not hide or deny them.
+
+## Writing style (notebook, README)
+
+Write like a student who saves time, not like a polished tutorial:
+- Markdown: short sentences with "on", a few lines per cell. Almost no bold,
+  no arrows (`→`), no long dashes (`—`), few bullet lists, no bold labels.
+- Comments: few, only where a choice is not obvious. Not aligned in columns.
+- Prints: simple, e.g. `print("tailles:", dict(tailles))`. No padded
+  f-strings or column alignment.
+- Keep everything the assignment asks for (each required point keeps at
+  least one sentence; tables required by the PDF stay).
+- Long theory (backpropagation, padding, stride…) goes to `soutenance/`
+  for the oral, not in the notebook. `soutenance/notebook_version_detaillee.ipynb`
+  keeps the detailed version.
+- Run the `humanizer` skill on new prose.
+
+## Defence
+
+- Notebook first; presentation format (slides or notebook) still to decide.
+- Prepare likely questions (why this data, why this logic, why this code)
+  with answers in `soutenance/`, not in the notebook.
+- Both students must be able to explain every cell.
+
+## Environment
+
+- Local: `.venv` (Python 3.11, TensorFlow CPU). TensorFlow has no GPU support
+  on native Windows since 2.11; use Colab (GPU T4) or WSL2
+  (`tensorflow[and-cuda]`) for speed.
 
 ## README
 
 The README is for people who want to use the project, not a story of how it
 was built. Keep only: what the project does, how to run it (Colab and local),
-the dataset, the notebook contents, the results, the structure and common
-problems. No development history, workflow, agents or decisions — those
-belong in `PROJECT_JOURNAL.md`. Update the results section once measured.
+the dataset, the notebook contents, the results, the tools used (including
+the AI assistants and skills), the structure and common problems. No
+development history, workflow details or decisions: those belong in
+`PROJECT_JOURNAL.md`. Update the results section once measured.
 
 ## Deep-learning rules
 
@@ -82,3 +117,6 @@ Reusable instructions live in `.claude/skills/<name>/SKILL.md` (plain
 Markdown, readable by any assistant): `ponytail` (simplest solution),
 `ponytail-review`, `ponytail-audit`, `mle-workflow` (ML method),
 `scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`.
+Also used from the user's global setup: `humanizer` (natural prose),
+`graphify` (repo analysis) and the ECC skills and review agents. Use the
+relevant skills when the students ask for it.

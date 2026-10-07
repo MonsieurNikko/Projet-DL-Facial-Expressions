@@ -390,3 +390,73 @@ KEEP — finish Parts 4 and 5, then experiments.
 **Presentation material:**  
 - The CNN beats the dense baseline by 13.6 points with 4.6× fewer parameters.
 - `disgust`: 7 images out of 73 recognised — accuracy alone hides this.
+
+### 2026-10-07 — Parts 4–6: training analysis, error analysis, experiments, final model
+
+**Phase:**  
+Parts 4, 5 and 6.
+
+**Goal:**  
+Finish the mandatory parts: justify the training choices, analyse the curves
+and the errors, run at least 3 experiments and pick a final model.
+
+**Owner:**  
+Both (to review and explain before the defence).
+
+**What we did:**  
+- Part 4: table justifying loss, optimiser, batch size, epochs and metrics;
+  4b learning curves of the CNN with the best epoch marked.
+- Part 5: 5c top confusions and classes sorted by recall; 5d grid of 4
+  correct and the 8 most confident wrong predictions.
+- 3a now resets the seed just before building the CNN; each experiment does
+  the same, so every model starts from the same random state. This moved the
+  `cnn_base` numbers (49.7 % → 50.3 %, best epoch 7 of 10).
+- Part 6: five experiments, each changing one thing from the last retained
+  model, all measured on validation; comparison table; final model E3; one
+  test evaluation; model saved to `models/modele_final.keras`; demo cell.
+
+**Why:**  
+The assignment asks for curve interpretation, confused classes with reasons,
+examples with probabilities including errors, and ≥ 3 controlled experiments.
+
+**Experiments (validation, seed 42, max 30 epochs, early stopping patience 3):**
+
+| # | Hypothesis | Change | Before | After | Decision |
+|---|---|---|---|---|---|
+| E1 | a hidden layer combines conv features before deciding | + Dense(128) ReLU | cnn_base 50.3 %, loss 1.322 | 49.8 %, loss 1.309, best epoch 5 (overfits earlier) | KEEP (tie < 1 point, lower loss, assignment figure 2) |
+| E2 | dropout slows memorisation in the 819k-parameter Dense layer | + Dropout(0.5) after Flatten | 49.8 %, loss 1.309 | 52.3 %, loss 1.235, best epoch 9 | KEEP |
+| E3 | a third block sees larger patterns and shrinks the Dense input (6,400 → 2,048) | + Conv2D(128) + MaxPooling | 52.3 %, 839,047 params | 57.7 %, loss 1.126, 355,847 params | KEEP — final model |
+| E4 | augmentation reduces the +7.8-point train/val gap | + RandomFlip, RandomRotation(0.05), RandomZoom(0.1) | 57.7 % | 55.4 %, gap −1.7, learns much slower, stopped at epoch 19 | REJECT |
+| E5 | class weights raise `disgust` recall | E3 + class_weight (disgust 9.41, happy 0.57) | 57.7 %, disgust 34.2 % | 53.9 %, disgust 57.5 %; happy −8.6, angry −5.2, fear −4.6 points | REJECT for the final model |
+
+**Result:**  
+Final model E3 (`e3_3_blocs`). Test set, used once: **59.3 %** accuracy
+(always `happy` = 24.7 %); recall angry 48.7 · disgust 33.3 · fear 35.9 ·
+happy 84.0 · neutral 58.0 · sad 47.8 · surprise 70.5 %. Full notebook run:
+543 s on CPU (Windows, TensorFlow 2.21), identical numbers on two runs.
+Not yet reproduced on Colab.
+
+**Decision:**  
+KEEP E3 as final model. CONTINUE: Colab check, student review, slides.
+
+**Problems encountered:**  
+- A quick standalone script was used before writing the cells to time the
+  runs and try the experiment order. Augmentation added on the two-block
+  model (with dropout) gave 51.7 % vs 52.8 % without (train accuracy below
+  validation: the model was too small), so the third conv block was tested
+  before augmentation. These script numbers are not in the notebook.
+- E5 was first chained after E4; since E4 was rejected, E5 was rebuilt on
+  E3 to respect "one change from the last retained model".
+- The test cells were left out of the first two runs, so the final model was
+  chosen from validation only before the test set was evaluated.
+
+**Reviewer:**  
+Pending (students).
+
+**Presentation material:**  
+- Deeper convolutions beat a bigger Dense layer: E3 has 2.4× fewer
+  parameters than E2 and +5.4 points.
+- Class weights trade accuracy for `disgust` recall (34 % → 58 %, −3.8 points
+  of accuracy): the right choice depends on what the application needs.
+- Several "errors" in 5d look like wrong labels (smiling faces labelled `sad`
+  or `surprise`): FER2013 label noise limits any model.
