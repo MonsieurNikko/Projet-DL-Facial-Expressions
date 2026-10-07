@@ -357,3 +357,36 @@ KEEP.
 **Presentation material:**  
 - Class-distribution chart: `disgust` has ≈ 16.5× fewer training images than `happy`.
 - Loss example: probability 0.72 on the true class gives L ≈ 0.33; 0.05 gives L ≈ 3.0.
+
+### 2026-10-07 — CNN, first training and evaluation
+
+**Phase:**  
+Parts 3–5.
+
+**Goal:**  
+Complete Part 3 and get a first confusion matrix and ROC curves for the CNN.
+
+**What we did:**  
+- Part 3: CNN from the assignment diagram (Conv 32 → Pool → Conv 64 → Pool →
+  Flatten → Dense 7 softmax, 63,623 parameters), theory cell, layer-by-layer
+  table, justification.
+- 4a: training with early stopping on `val_loss` (patience 3, best weights restored).
+- 5a: confusion matrix and per-class recall; 5b: one-vs-rest ROC curves with AUC.
+  Both on the validation set; the test set is untouched.
+
+**Why:**  
+The confusion matrix and the ROC curves need a trained model, so a minimal
+training cell was added before them. Early stopping makes the evaluated
+weights those of the best epoch instead of an overfitted one.
+
+**Result:**  
+Single local CPU run, seed 42, validation: baseline 36.1 %, CNN 49.7 %
+(stopped after 10 epochs, best epoch 7). Recall from 9.6 % (`disgust`) to
+72.0 % (`happy`).
+
+**Decision:**  
+KEEP — finish Parts 4 and 5, then experiments.
+
+**Presentation material:**  
+- The CNN beats the dense baseline by 13.6 points with 4.6× fewer parameters.
+- `disgust`: 7 images out of 73 recognised — accuracy alone hides this.

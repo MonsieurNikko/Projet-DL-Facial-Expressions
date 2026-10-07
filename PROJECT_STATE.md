@@ -77,28 +77,54 @@ What each part must show or explain:
   loss, backpropagation, gradient descent, multiclass output); learning
   curves; validation accuracy vs chance and majority class; 2d shows the 7
   probabilities for one validation image.
-- Verified end to end on a synthetic dataset; **still to run in Colab on real data**.
+- Part 3: CNN as in the assignment diagram (Conv2D 32 3×3 ReLU →
+  MaxPooling 2 → Conv2D 64 3×3 ReLU → MaxPooling 2 → Flatten → Dense 7
+  softmax, 63,623 parameters confirmed by `summary()`), same compilation as
+  the baseline; theory cell (filter, kernel size, convolution, feature map,
+  stride, padding, ReLU, pooling, Flatten, Dense, output), layer-by-layer
+  table and justification.
+- 4a: CNN training, at most 30 epochs, early stopping on `val_loss`
+  (patience 3, best weights restored); prints CNN vs baseline validation accuracy.
+- 5a: confusion matrix and per-class recall on validation (scikit-learn).
+  5b: one-vs-rest ROC curves with AUC per class on validation.
+- Whole notebook executed end to end on real data, locally on CPU (Apple M4,
+  about 2 minutes); **not yet run in Colab**.
 
 ## Progress
 
 - [ ] Part 1 — Dataset research and preparation (code done, Colab run pending)
 - [ ] Part 2 — Dense baseline (code done, Colab run pending)
-- [ ] Part 3 — CNN
-- [ ] Part 4 — Training
-- [ ] Part 5 — Evaluation and error analysis
+- [x] Part 3 — CNN
+- [ ] Part 4 — Training (4a done; missing: justification of loss, optimiser, batch size, epochs, metrics; CNN learning curves; overfitting comment)
+- [ ] Part 5 — Evaluation and error analysis (5a, 5b done; missing: most confused classes and why, example predictions with probability, including errors)
 - [ ] Part 6 — At least 3 experiments
 
 Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
 
 ## Current model and results
 
-Dense baseline written; validation accuracy to be measured in Colab.
+Single local run (seed 42, CPU), validation set, 2026-10-07:
+
+- Dense baseline: 36.1 % accuracy (chance 14.3 %, always `happy` 24.4 %).
+- CNN (Part 3): 49.7 % accuracy; early stopping after 10 epochs, best
+  `val_loss` 1.327 at epoch 7. Train accuracy kept rising (60 %) while
+  validation stalled near 50 %: overfitting starts around epoch 7.
+- CNN recall per class: angry 41.3 % · disgust 9.6 % (7 / 73) · fear 28.1 % ·
+  happy 72.0 % · neutral 52.8 % · sad 34.1 % · surprise 62.1 %.
+
+Test set not used yet.
 
 ## Open issues
 
-- Run the notebook in Colab: check the counts printed by 1c and record the
-  baseline validation accuracy (and whether the curves show overfitting).
+- Run the notebook in Colab and check the numbers above are reproduced.
+- CNN architecture choices (32 / 64 filters, no hidden Dense layer) were
+  proposed, not yet confirmed by the students.
+- `disgust` is almost never recognised (recall 9.6 %): candidate for a Part 6
+  experiment (class weights or augmentation).
+- The notebook's saved kernel is `monenv` (Simon's local environment); other
+  machines must pick their own kernel.
 
 ## Next step
 
-Run Parts 1–2 in Colab, then Part 3 — CNN.
+Finish Part 4 (justifications, CNN learning curves) and Part 5 (confusion
+analysis, example predictions), then Part 6 experiments.

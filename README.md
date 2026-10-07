@@ -26,7 +26,7 @@ Prérequis : Python 3.10 ou plus récent.
 ```bash
 git clone https://github.com/MonsieurNikko/Projet-DL-Facial-Expressions.git
 cd Projet-DL-Facial-Expressions
-pip install tensorflow matplotlib pillow kagglehub jupyter
+pip install tensorflow matplotlib pillow scikit-learn kagglehub jupyter
 jupyter notebook notebooks/fer2013_expressions.ipynb
 ```
 
