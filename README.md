@@ -76,33 +76,32 @@ confusion et le rappel par classe.
 
 ## Résultats
 
-Chiffres d'une exécution locale complète du notebook (CPU, Windows,
-TensorFlow 2.21, seed 42). Ils sont à revérifier sur Colab, le GPU peut donner
-des valeurs un peu différentes.
-
-Attention : ces chiffres viennent d'une version précédente du code (lots de 64,
-modèle final E3). Ils seront remplacés après la prochaine exécution sur Colab.
+Exécution de référence du 8 octobre 2026 (Google Colab, GPU T4, seed 42). Les
+sorties de cette exécution sont enregistrées dans le notebook. Une nouvelle
+exécution peut donner des chiffres un peu différents.
 
 Comparaison des modèles sur la validation (5 739 images) :
 
 | Modèle | Changement | Accuracy | Rappel `disgust` |
 |---|---|---:|---:|
-| Baseline dense | Flatten, Dense 128, softmax | 34,0 % | |
-| CNN de base | 2 blocs Conv + MaxPooling, softmax | 50,8 % | 11,4 % |
-| E1 | + couche `Dense(128)` | 51,9 % | 12,9 % |
-| E2 | + `Dropout(0.5)` | 52,2 % | 18,6 % |
-| E3 (modèle final) | + 3e bloc `Conv2D(128)` | 58,3 % | 25,7 % |
-| E4 | E3 + augmentation de données | 56,6 % | 10,0 % |
-| E5 | E3 + pondération des classes | 53,8 % | 60,0 % |
+| Baseline dense | Flatten, Dense 128, softmax | 34,2 % | |
+| CNN de base | 2 blocs Conv + MaxPooling, softmax | 50,9 % | 18,6 % |
+| E0 | + baisse du learning rate | 50,5 % | 18,6 % |
+| E1 | + `Dense(128)` + `Dense(64)` | 50,7 % | 24,3 % |
+| E1 bis | + `BatchNormalization` | 52,1 % | 30,0 % |
+| E2 | + `Dropout(0.3)` | 53,5 % | 34,3 % |
+| E3 | + 3e et 4e blocs de convolution | 51,1 % | 0,0 % |
+| E4 (modèle final) | + augmentation de données | 60,2 % | 20,0 % |
+| E5 | E4 + pondération des classes | 54,7 % | 48,6 % |
 
 Repères : hasard 14,3 %, répondre toujours `happy` 24,4 %.
 
-Le modèle final (E3, 355 847 paramètres) fait 57,7 % d'accuracy sur le jeu de
-test (7 177 images, utilisé une seule fois).
+Le modèle final (E4, choisi automatiquement : meilleure accuracy de validation)
+fait 61,2 % d'accuracy sur le jeu de test (7 177 images, utilisé une seule fois).
 
 | Classe | angry | disgust | fear | happy | neutral | sad | surprise |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Rappel (test) | 50,1 % | 35,1 % | 27,5 % | 81,8 % | 57,9 % | 46,0 % | 72,4 % |
+| Rappel (test) | 53,7 % | 20,7 % | 33,2 % | 80,6 % | 74,0 % | 46,7 % | 71,1 % |
 
 Le notebook sauvegarde le modèle dans `models/modele_final.keras`. La dernière
 cellule (Démo) le recharge et prédit l'expression d'une image.

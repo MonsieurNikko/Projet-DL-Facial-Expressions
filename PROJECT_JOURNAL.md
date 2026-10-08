@@ -539,3 +539,34 @@ Runs end to end on a synthetic dataset; real-data run pending.
 
 **Decision:**  
 KEEP.
+
+### 2026-10-08 — Reference run of the merged notebook (Colab, GPU T4)
+
+**Phase:**  
+Parts 1–6.
+
+**What we did:**  
+Ran the merged notebook end to end on Colab (GPU T4), no error, outputs saved
+in `notebooks/fer2013_expressions.ipynb` (the Colab copy saved as a separate
+`_output` file was moved onto it). Filled the dated tables 6g and 6i and
+rewrote the readings of 5c and E1 bis to E5, 6h, 6i from these outputs.
+
+**Result:**  
+Final model chosen by the rule: E4 (augmentation), 60.2 % val, **61.2 % test**
+(always `happy` 24.7 %). E5 (class_weight) finds 48.6 % of `disgust` in val
+but loses 5.5 points of accuracy.
+
+**Problems encountered:**  
+- E3 lost 2.4 points but E4 was built on it (chain written before the run);
+  E3's val accuracy kept rising while its val_loss rose (overconfidence), and
+  the best weights are restored on val_loss.
+- E1 bis was kept by the rule (+1.4 points) despite a worse val_loss.
+
+**Decision:**  
+KEEP E4 as final model.
+
+**Presentation material:**  
+- Baseline 34 %, CNN 51 %, final 61 % on test.
+- Augmentation is what made the deeper model work.
+- Accuracy vs loss: a model can classify more images correctly while being
+  overconfident on the ones it misses.

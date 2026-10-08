@@ -91,56 +91,51 @@ What each part must show or explain:
   per-class precision and F1. **6h picks the final model automatically: best
   validation accuracy** (rule announced at the start of Part 6). 6i: single
   test evaluation, model saved; demo cell.
-- Verified end to end on a synthetic dataset (CPU, TF 2.21, Keras 3.15).
-  **Not yet run on real data with this code.**
+- **Run on real data on 2026-10-08 evening (Google Colab, GPU T4), no error;
+  the notebook in the repo contains these outputs** (45 outputs). Final model
+  chosen by 6h: `e4_augmentation`.
 
 ## Progress
 
-- [ ] Part 1 — Dataset research and preparation (code done, Colab run pending)
-- [ ] Part 2 — Dense baseline (code done, Colab run pending)
+- [x] Part 1 — Dataset research and preparation
+- [x] Part 2 — Dense baseline
 - [x] Part 3 — CNN
 - [x] Part 4 — Training (choices justified, curves, overfitting comment)
 - [x] Part 5 — Evaluation and error analysis
-- [x] Part 6 — 5 experiments, table, final model, test evaluation, demo
-  (local run; Colab check pending)
+- [x] Part 6 — experiments E0–E5, table, final model, test evaluation, demo
 
 Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
 Presentation slides: not started.
 
 ## Current model and results
 
-**Superseded:** the numbers below come from older versions of the code (CPU run of 2026-10-08 morning; Colab run of 2026-10-08 evening without blank-image removal, batch 128, E5 = E3 + class_weight). Redo after the next Colab run.
-
-
-Single local run (seed 42, CPU, Windows, TF 2.21), 2026-10-08, after
-removing the 13 blank images in step 0. To re-check on Colab (GPU may give
-slightly different numbers).
-
-Validation (5,739 images; train 22,958):
+Reference run: 2026-10-08 evening, Google Colab, GPU T4, seed 42, batch 128,
+blank images removed (train 22,958 / val 5,739 / test 7,177). Outputs saved
+in the notebook.
 
 | Model | Change | Val acc | Val loss | Best epoch | Train−val gap | `disgust` recall | Decision |
 |---|---|---:|---:|---:|---:|---:|---|
-| Dense baseline | Part 2 | 34.0 % | | 20 fixed | | | reference |
-| `cnn_base` | Part 3 | 50.8 % | 1.339 | 8 / 11 | +6.2 | 11.4 % | reference |
-| E1 | + Dense(128) | 51.9 % | 1.303 | 6 / 9 | +7.9 | 12.9 % | kept (+1.1) |
-| E2 | + Dropout(0.5) before Dense | 52.2 % | 1.274 | 7 / 10 | +3.6 | 18.6 % | kept (tie, lower loss and gap) |
-| E3 | + 3rd block Conv2D(128) | 58.3 % | 1.127 | 14 / 17 | +3.4 | 25.7 % | final model |
-| E4 | E3 + augmentation | 56.6 % | 1.144 | 20 / 23 | −3.0 | 10.0 % | rejected |
-| E5 | E3 + class_weight | 53.8 % | 1.238 | 15 / 18 | +1.7 | 60.0 % | rejected |
+| Dense baseline | Part 2 | 34.2 % | | 20 fixed | | | reference |
+| `cnn_base` | Part 3 (early stopping) | 50.9 % | 1.335 | 10 / 16 | +7.6 | 18.6 % | reference |
+| E0 | + ReduceLROnPlateau | 50.5 % | 1.327 | 8 / 20 | +6.5 | 18.6 % | no gain, kept in chain |
+| E1 | + Dense 128 + 64 | 50.7 % | 1.326 | 6 / 20 | +7.3 | 24.3 % | kept |
+| E1 bis | + BatchNorm | 52.1 % | 1.349 | 11 / 20 | +18.9 | 30.0 % | kept (rule) |
+| E2 | + Dropout 0.3 | 53.5 % | 1.281 | 14 / 20 | +12.8 | 34.3 % | kept |
+| E3 | + conv blocks 128 and 256 | 51.1 % | 1.303 | 4 / 20 | +5.5 | 0.0 % | should be rejected; E4 built on it anyway |
+| E4 | + augmentation | 60.2 % | 1.065 | 19 / 20 | +3.9 | 20.0 % | **final model** |
+| E5 | E4 + class_weight | 54.7 % | 1.188 | 17 / 20 | +0.7 | 48.6 % | rejected (best disgust F1) |
 
-- References: chance 14.3 %, always `happy` 24.4 % (validation).
-- `cnn_base` recall: angry 35.9 · disgust 11.4 (8 / 70) · fear 28.2 ·
-  happy 72.7 · neutral 48.8 · sad 45.5 · surprise 64.4 %. Top confusions:
-  neutral→sad 203, fear→sad 183, sad→neutral 167, angry→sad 152,
-  neutral→happy 132.
-- E3 recall: angry 47.0 · disgust 25.7 · fear 29.4 · happy 82.9 · neutral
-  59.8 · sad 47.3 · surprise 72.0 %. E5 raises disgust to 60.0 % but lowers
-  happy (69.1), neutral (55.3), sad (44.9) and angry (45.0).
-
-Test set (used once, final model E3 `e3_3_blocs`, 355,847 parameters):
-57.7 % accuracy (loss 1.124, 7,177 images; always `happy` = 24.7 %).
-Recall: angry 50.1 · disgust 35.1 (39 / 111) · fear 27.5 · happy 81.8 ·
-neutral 57.9 · sad 46.0 · surprise 72.4 %.
+- References: chance 14.3 %, always `happy` 24.4 % (val), 24.7 % (test).
+- `disgust` precision / F1: E4 73.7 / 31.5 %, E5 27.9 / 35.4 %.
+- E3 detail: val accuracy keeps rising to ~58 % at epoch 20 while val_loss
+  rises (overconfidence); best weights are restored on val_loss (epoch 4).
+- `cnn_base` val recall: angry 43.0 · disgust 18.6 · fear 24.8 · happy 74.8 ·
+  neutral 50.3 · sad 38.9 · surprise 63.5 %. Top confusions: sad→neutral 187,
+  neutral→sad 174, fear→sad 166, sad→happy 150, neutral→happy 142.
+- Test (used once, E4): **61.2 %** (loss 1.049). Recall: angry 53.7 ·
+  disgust 20.7 (23/111) · fear 33.2 · happy 80.6 · neutral 74.0 · sad 46.7 ·
+  surprise 71.1 %.
+- Demo cell: a `happy` test image predicted `happy` at 0.98.
 
 ## Branches (2026-10-07)
 
@@ -154,21 +149,15 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Open issues
 
-- Run `notebooks/fer2013_expressions.ipynb` on Colab (GPU, Run all), save it
-  with its outputs to GitHub, then fill the empty tables of 6g and 6i (date,
-  machine) and write the readings of E5 (6f), 6h and 6i. Check that the E0–E4
-  readings (trends of the evening Colab run) still hold.
-- E5 (E4 + class_weight) has never been run.
-- If the best model by validation accuracy does not find `disgust`, present
-  the model with the best `disgust` recall/F1 as the alternative, without
-  changing the rule.
-- E0 and E1 bis are kept in later models without a measured gain: be ready
-  to say so at the oral.
+- Be ready to explain at the oral: E0 and E3 did not improve accuracy but stay
+  in the chain (written before the run); E1 bis kept by the rule despite a
+  worse loss; best epoch chosen on val_loss but final model on val accuracy
+  (E3 shows the two can disagree).
+- E4 and E5 were still improving at epoch 20: longer training not tested.
+  Milder class weights (square root) not tested.
 - Results come from one seed: differences under 1 point are not meaningful.
-- Milder class weights (e.g. square root) and longer training for E4/E5 were
-  not tested.
-
+- Presentation slides not started.
 ## Next step
 
-Colab run of the merged notebook tonight, then fill 6g / 6i and the E5, 6h,
-6i readings from its outputs; then the presentation and the demo rehearsal.
+Prepare the presentation and rehearse the demo; mock jury on Parts 2–6
+(`soutenance/explications.md`).
