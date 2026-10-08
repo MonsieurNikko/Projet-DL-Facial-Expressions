@@ -164,6 +164,53 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Open issues
 
+- Changes of 2026-10-08 (Simon), in both notebooks, **written but never
+  run**: (1) dropout rate 0.5 → 0.3 in E2–E5, with the justification in the
+  E2 cell; (2) `RandomGaussianBlur(factor=0.5, kernel_size=3, sigma=1.0,
+  value_range=(0, 1))` added to the E4 augmentation (needs a recent Keras 3;
+  present in 3.15, to check on Colab); (3) new experiment E0 before E1:
+  `cnn_base` trained with `ReduceLROnPlateau` (factor 0.5, patience 1) through
+  a new `baisse_lr` argument of `entrainer`; E1–E5 now all pass
+  `baisse_lr=True` (Simon's request, before any E0 result).
+  (4) early-stopping patience 3 → 6 in 4a, shared by `cnn_base` and every
+  Part 6 experiment through `entrainer`.
+  (5) architecture: a `Dense(64)` after `Dense(128)` in E1–E5 (E1/E2:
+  846,855 parameters); a 4th block `Conv2D(256, 3, padding="same")` +
+  `MaxPooling2D(2)` in E3–E5 (527,751 parameters, Flatten 1,024; model
+  renamed `e3_4_blocs`). E1 and E3 therefore each add two layers at once.
+  (6) new experiment E6 after E5 ("6f bis"): E3 with a `BatchNormalization`
+  after each convolution (conv → BN → ReLU → pooling), 529,671 parameters,
+  `baisse_lr=True`. 6h still fixes `modele_e3` as the final model; switch it
+  to E6 by hand if E6 wins. Justifications added in Markdown for patience 6
+  (Part 4 choices) and for using the scheduler in E1–E6 (Part 6 intro).
+  (7) Markdown pass: every reading cell of Part 6 (E1–E5, 6h, 6i) now opens
+  with a line saying it describes the earlier reference run and must be
+  re-read after a new run; E0 and E6 readings are placeholders.
+  (8) scheduler made less aggressive after Simon reported runs stopping too
+  early: `ReduceLROnPlateau(factor=0.5, patience=3, min_lr=1e-5)` instead of
+  patience 1 with no floor. Diagnosis from the design and an earlier log, not
+  from Simon's latest run (its outputs were not saved).
+  (9) `entrainer(..., epoques=20)`: every Part 6 experiment now trains a
+  fixed 20 epochs and keeps the best-epoch weights (an `EarlyStopping` with
+  patience = epochs never fires and only restores the best weights; relies on
+  Keras 3 behaviour). `epoques=None` gives back the Part 4 early stopping.
+  `cnn_base` still uses early stopping (max 30, patience 6).
+  (10) batch normalisation moved: the E6 step of item (6) is removed and
+  replaced by "E1 bis" right after E1 (E1 + BN after each convolution,
+  847,239 parameters). E2–E5 are built on it and all contain BN (E2:
+  847,239; E3–E5: 529,671). Final model in 6h is still `modele_e3`.
+  (11) first convolution of every CNN (Part 3 `cnn_base` and E0–E5) changed
+  from 3×3 to 5×5. Shapes become 48 → 44 → 22 → 20 → 10 (Flatten unchanged).
+  Parameter counts now: `cnn_base` / E0 64,135 · E1 847,367 · E1 bis / E2
+  847,751 · E3–E5 530,183. These supersede the counts quoted in items above.
+  Part 3 text, layer table and the 5×5 justification updated in both notebooks.
+  (12) 6g now also prints per-class precision and F1 for every model
+  (`precision_score` / `f1_score`, `zero_division=0`), from a `predictions`
+  dict filled by `mesurer`. Tested on fake predictions only.
+  Consequences: every measured number below, the dated tables in 6g / 6i, the
+  README results and the slides were obtained with dropout 0.5, without blur
+  and without E0, and must be redone after a full run. The reading cells of
+  E2–E5 describe the old run; the E0 reading cell is a placeholder.
 - Run the notebook in Colab (Runtime → Run all; about 9 min locally on CPU,
   probably faster on GPU). The notebook text no longer quotes run numbers, so
   it stays valid if they move; only check that the trends hold (E3 best,
