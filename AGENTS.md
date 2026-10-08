@@ -65,12 +65,13 @@ Write like a student who saves time, not like a polished tutorial:
   f-strings or column alignment.
 - Keep everything the assignment asks for (each required point keeps at
   least one sentence; tables required by the PDF stay).
-- No numbers from a training run in Markdown (accuracies, losses, best
-  epochs, recalls, confusion counts): they change from one run to another.
-  The code prints them; the text describes the trend ("plus gros gain",
-  "surapprend plus tôt"). Fixed facts (dataset counts, parameter counts,
-  hyperparameters) can stay. Measured numbers go to `PROJECT_STATE.md` and
-  the journal, with the date and the machine.
+- Numbers from a training run (accuracies, losses, best epochs, recalls,
+  confusion counts) change from one run to another. In the interpretation
+  cells, describe the trend ("plus gros gain", "surapprend plus tôt"); the
+  code prints the exact values. Measured numbers appear only in the dated
+  reference tables (6g and 6i), always with the date and the machine of the
+  run, and in `PROJECT_STATE.md` / the journal. Fixed facts (dataset counts,
+  parameter counts, hyperparameters) can stay anywhere.
 - Long theory (backpropagation, padding, stride…) goes to `soutenance/`
   for the oral, not in the notebook. `soutenance/notebook_version_detaillee.ipynb`
   keeps the detailed version.
