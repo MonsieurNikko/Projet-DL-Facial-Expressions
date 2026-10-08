@@ -59,8 +59,12 @@ What each part must show or explain:
   happy 7,215 / 1,774 · neutral 4,965 / 1,233 · sad 4,830 / 1,247 ·
   surprise 3,171 / 831.
 - Strong imbalance: `disgust` has ~16× fewer images than `happy`.
-- Splits: train 22,968 / validation 5,741 (20 % of train, seed 42) /
-  test 7,178 (final evaluation only).
+- 13 blank images (no face, pixel std < 1): 12 in train (7 in `angry`), 1 in
+  test (`test/angry/PublicTest_5543497.jpg`). Removed in step 0 (train and
+  test), so the notebook works on 28,697 train / 7,177 test images. Good
+  point for the oral (data quality).
+- Splits (after removing blank images): train 22,958 / validation 5,739
+  (20 % of train, seed 42) / test 7,177 (final evaluation only).
 
 ## Notebook — `notebooks/fer2013_expressions.ipynb`
 
@@ -118,33 +122,35 @@ Presentation slides: not started.
 
 ## Current model and results
 
-Single local run (seed 42, CPU, Windows, TF 2.21), 2026-10-07. To re-check
-on Colab (GPU may give slightly different numbers).
+Single local run (seed 42, CPU, Windows, TF 2.21), 2026-10-08, after
+removing the 13 blank images in step 0. To re-check on Colab (GPU may give
+slightly different numbers).
 
-Validation (5,741 images):
+Validation (5,739 images; train 22,958):
 
 | Model | Change | Val acc | Val loss | Best epoch | Train−val gap | `disgust` recall | Decision |
 |---|---|---:|---:|---:|---:|---:|---|
-| Dense baseline | Part 2 | 36.1 % | | 20 fixed | | | reference |
-| `cnn_base` | Part 3 | 50.3 % | 1.322 | 7 / 10 | +5.8 | 13.7 % | reference |
-| E1 | + Dense(128) | 49.8 % | 1.309 | 5 / 8 | +6.0 | 11.0 % | kept (tie, lower loss) |
-| E2 | + Dropout(0.5) before Dense | 52.3 % | 1.235 | 9 / 12 | +6.6 | 17.8 % | kept |
-| E3 | + 3rd block Conv2D(128) | **57.7 %** | **1.126** | 18 / 21 | +7.8 | 34.2 % | **final model** |
-| E4 | E3 + augmentation | 55.4 % | 1.161 | 16 / 19 | −1.7 | 6.8 % | rejected |
-| E5 | E3 + class_weight | 53.9 % | 1.218 | 20 / 23 | +7.6 | 57.5 % | rejected |
+| Dense baseline | Part 2 | 34.0 % | | 20 fixed | | | reference |
+| `cnn_base` | Part 3 | 50.8 % | 1.339 | 8 / 11 | +6.2 | 11.4 % | reference |
+| E1 | + Dense(128) | 51.9 % | 1.303 | 6 / 9 | +7.9 | 12.9 % | kept (+1.1) |
+| E2 | + Dropout(0.5) before Dense | 52.2 % | 1.274 | 7 / 10 | +3.6 | 18.6 % | kept (tie, lower loss and gap) |
+| E3 | + 3rd block Conv2D(128) | 58.3 % | 1.127 | 14 / 17 | +3.4 | 25.7 % | final model |
+| E4 | E3 + augmentation | 56.6 % | 1.144 | 20 / 23 | −3.0 | 10.0 % | rejected |
+| E5 | E3 + class_weight | 53.8 % | 1.238 | 15 / 18 | +1.7 | 60.0 % | rejected |
 
 - References: chance 14.3 %, always `happy` 24.4 % (validation).
-- `cnn_base` recall: angry 36.6 · disgust 13.7 · fear 25.0 · happy 73.5 ·
-  neutral 50.4 · sad 44.4 · surprise 60.5 %. Top confusions: neutral→sad 214,
-  fear→sad 192, sad→neutral 182, angry→sad 167, sad→happy 152.
-- E3 recall: angry 46.6 · disgust 34.2 · fear 32.6 · happy 82.0 · neutral
-  57.1 · sad 49.0 · surprise 66.4 %. E5 raises disgust to 57.5 % but lowers
-  happy (73.4), angry (41.4) and fear (28.0).
+- `cnn_base` recall: angry 35.9 · disgust 11.4 (8 / 70) · fear 28.2 ·
+  happy 72.7 · neutral 48.8 · sad 45.5 · surprise 64.4 %. Top confusions:
+  neutral→sad 203, fear→sad 183, sad→neutral 167, angry→sad 152,
+  neutral→happy 132.
+- E3 recall: angry 47.0 · disgust 25.7 · fear 29.4 · happy 82.9 · neutral
+  59.8 · sad 47.3 · surprise 72.0 %. E5 raises disgust to 60.0 % but lowers
+  happy (69.1), neutral (55.3), sad (44.9) and angry (45.0).
 
 Test set (used once, final model E3 `e3_3_blocs`, 355,847 parameters):
-**59.3 %** accuracy (loss 1.112, 7,178 images; always `happy` = 24.7 %).
-Recall: angry 48.7 · disgust 33.3 (37 / 111) · fear 35.9 · happy 84.0 ·
-neutral 58.0 · sad 47.8 · surprise 70.5 %.
+57.7 % accuracy (loss 1.124, 7,177 images; always `happy` = 24.7 %).
+Recall: angry 50.1 · disgust 35.1 (39 / 111) · fear 27.5 · happy 81.8 ·
+neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Branches (2026-10-07)
 

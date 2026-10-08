@@ -51,8 +51,11 @@ Carrier et Aaron Courville ([Goodfellow et al., 2013](https://arxiv.org/abs/1307
 | surprise | 3 171 | 831 |
 | Total | 28 709 | 7 178 |
 
-Découpage : 80 % du dossier `train` pour l'entraînement (22 968 images), 20 %
-pour la validation (5 741, seed 42), et le dossier `test` (7 178) seulement
+13 images sont vides (pas de visage, toutes noires ou grises) : 12 en train et
+1 en test. Le notebook les supprime au début.
+
+Découpage : 80 % du dossier `train` pour l'entraînement (22 958 images), 20 %
+pour la validation (5 739, seed 42), et le dossier `test` (7 177) seulement
 pour l'évaluation finale.
 
 Les classes sont déséquilibrées (`disgust` a environ 16 fois moins d'images que
@@ -77,26 +80,26 @@ Chiffres d'une exécution locale complète du notebook (CPU, Windows,
 TensorFlow 2.21, seed 42). Ils sont à revérifier sur Colab, le GPU peut donner
 des valeurs un peu différentes.
 
-Comparaison des modèles sur la validation (5 741 images) :
+Comparaison des modèles sur la validation (5 739 images) :
 
 | Modèle | Changement | Accuracy | Rappel `disgust` |
 |---|---|---:|---:|
-| Baseline dense | Flatten, Dense 128, softmax | 36,1 % | |
-| CNN de base | 2 blocs Conv + MaxPooling, softmax | 50,3 % | 13,7 % |
-| E1 | + couche `Dense(128)` | 49,8 % | 11,0 % |
-| E2 | + `Dropout(0.5)` | 52,3 % | 17,8 % |
-| E3 (modèle final) | + 3e bloc `Conv2D(128)` | 57,7 % | 34,2 % |
-| E4 | E3 + augmentation de données | 55,4 % | 6,8 % |
-| E5 | E3 + pondération des classes | 53,9 % | 57,5 % |
+| Baseline dense | Flatten, Dense 128, softmax | 34,0 % | |
+| CNN de base | 2 blocs Conv + MaxPooling, softmax | 50,8 % | 11,4 % |
+| E1 | + couche `Dense(128)` | 51,9 % | 12,9 % |
+| E2 | + `Dropout(0.5)` | 52,2 % | 18,6 % |
+| E3 (modèle final) | + 3e bloc `Conv2D(128)` | 58,3 % | 25,7 % |
+| E4 | E3 + augmentation de données | 56,6 % | 10,0 % |
+| E5 | E3 + pondération des classes | 53,8 % | 60,0 % |
 
 Repères : hasard 14,3 %, répondre toujours `happy` 24,4 %.
 
-Le modèle final (E3, 355 847 paramètres) fait 59,3 % d'accuracy sur le jeu de
-test (7 178 images, utilisé une seule fois).
+Le modèle final (E3, 355 847 paramètres) fait 57,7 % d'accuracy sur le jeu de
+test (7 177 images, utilisé une seule fois).
 
 | Classe | angry | disgust | fear | happy | neutral | sad | surprise |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Rappel (test) | 48,7 % | 33,3 % | 35,9 % | 84,0 % | 58,0 % | 47,8 % | 70,5 % |
+| Rappel (test) | 50,1 % | 35,1 % | 27,5 % | 81,8 % | 57,9 % | 46,0 % | 72,4 % |
 
 Le notebook sauvegarde le modèle dans `models/modele_final.keras`. La dernière
 cellule (Démo) le recharge et prédit l'expression d'une image.

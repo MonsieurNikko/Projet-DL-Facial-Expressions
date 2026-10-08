@@ -460,3 +460,25 @@ Pending (students).
   of accuracy): the right choice depends on what the application needs.
 - Several "errors" in 5d look like wrong labels (smiling faces labelled `sad`
   or `surprise`): FER2013 label noise limits any model.
+
+### 2026-10-08 — Remove blank images, student-style notebook
+
+**What we did:**
+- Found 13 blank images in FER2013 (pixel std < 1, no face): 12 in train
+  (7 in `angry`), 1 in test. Step 0 now deletes them; the dataset table
+  mentions it.
+- Rewrote the notebook text and comments in a shorter student style; long
+  theory moved to `soutenance/notebook_version_detaillee.ipynb`.
+- Re-ran the whole notebook (local CPU) and updated every number.
+
+**Why:**
+Blank images only teach noise. Removing them changes the train/validation
+split slightly, so all experiments were re-run.
+
+**Result:**
+Same decisions, same final model (E3). Validation: base CNN 50.8 %, E1 51.9,
+E2 52.2, E3 58.3, E4 56.6, E5 53.8. Test (once): 57.7 % on 7,177 images.
+E1 is now kept on accuracy (+1.1); E2 on loss and train/val gap (3.6 vs 7.9).
+
+**Decision:**
+KEEP.
