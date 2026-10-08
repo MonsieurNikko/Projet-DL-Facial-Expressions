@@ -123,6 +123,8 @@ Reusable instructions live in `.claude/skills/<name>/SKILL.md` (plain
 Markdown, readable by any assistant): `ponytail` (simplest solution),
 `ponytail-review`, `ponytail-audit`, `mle-workflow` (ML method),
 `scientific-thinking-literature-review`, `scientific-thinking-scholar-evaluation`.
+`i-have-adhd` (action-first answers for Nikko: next action first, numbered
+steps, state restated each turn; on with `/i-have-adhd`, off with "stop adhd mode").
 Also used from the user's global setup: `humanizer` (natural prose),
 `graphify` (repo analysis) and the ECC skills and review agents. Use the
 relevant skills when the students ask for it.
