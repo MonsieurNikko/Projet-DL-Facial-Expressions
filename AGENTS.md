@@ -72,9 +72,10 @@ Write like a student who saves time, not like a polished tutorial:
   reference tables (6g and 6i), always with the date and the machine of the
   run, and in `PROJECT_STATE.md` / the journal. Fixed facts (dataset counts,
   parameter counts, hyperparameters) can stay anywhere.
-- Long theory (backpropagation, padding, stride…) goes to `soutenance/`
-  for the oral, not in the notebook. `soutenance/notebook_version_detaillee.ipynb`
-  keeps the detailed version.
+- One notebook only (`notebooks/fer2013_expressions.ipynb`). Never create a
+  second copy of the code: it drifts. Long theory (backpropagation, padding,
+  stride…) and the jury questions go to `soutenance/explications.md` (text,
+  no executable code), not in the notebook.
 - Run the `humanizer` skill on new prose.
 
 ## Defence

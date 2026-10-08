@@ -510,3 +510,32 @@ so hard-coded numbers made the text contradict the outputs during the defence.
 **Decision:**  
 KEEP. Measured numbers stay in `PROJECT_STATE.md` and the README results
 section, with the date and machine of the run.
+
+### 2026-10-08 — One notebook: detailed version merged into the main one
+
+**Goal:**  
+Stop the drift between the two notebooks (they no longer had the same data,
+batch size, E5 or final model).
+
+**What we did:**  
+- Main notebook aligned on the version Simon ran on Colab: batch size 128,
+  E5 = E4 (augmentation) + class_weight, E0 and E1 bis kept in later models.
+  Kept from the main notebook: removal of the 13 blank images.
+- 6h now picks the final model by the rule fixed at the start of Part 6 (best
+  validation accuracy) instead of a hard-coded `modele_e3` / `modele_e5`.
+- E5 recall comparison now against E4, its starting model (one change).
+- E0–E4 readings rewritten from the trends of the evening Colab run; E5, 6h,
+  6i readings and the 6g / 6i tables left empty until the next run.
+- `soutenance/notebook_version_detaillee.ipynb` replaced by
+  `soutenance/explications.md` (long explanations + Part 1 jury Q&A, no code).
+- `AGENTS.md`: one notebook only.
+
+**Why:**  
+Two copies of the same code drifted within a day; the Colab E5 described in
+the texts (E3 + class_weight) was not the E5 in the code (E4 + class_weight).
+
+**Result:**  
+Runs end to end on a synthetic dataset; real-data run pending.
+
+**Decision:**  
+KEEP.

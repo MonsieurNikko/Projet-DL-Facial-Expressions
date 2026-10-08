@@ -80,6 +80,9 @@ Chiffres d'une exécution locale complète du notebook (CPU, Windows,
 TensorFlow 2.21, seed 42). Ils sont à revérifier sur Colab, le GPU peut donner
 des valeurs un peu différentes.
 
+Attention : ces chiffres viennent d'une version précédente du code (lots de 64,
+modèle final E3). Ils seront remplacés après la prochaine exécution sur Colab.
+
 Comparaison des modèles sur la validation (5 739 images) :
 
 | Modèle | Changement | Accuracy | Rappel `disgust` |
@@ -134,7 +137,7 @@ notebook.
 .
 ├── notebooks/
 │   └── fer2013_expressions.ipynb      # le notebook du projet
-├── soutenance/                        # préparation de l'oral (version détaillée du notebook)
+├── soutenance/explications.md        # explications longues et questions du jury (sans code)
 ├── .claude/skills/                    # skills utilisés par les assistants d'IA
 ├── AGENTS.md                          # règles de travail pour les assistants
 ├── PROJECT_STATE.md                   # état actuel du projet
