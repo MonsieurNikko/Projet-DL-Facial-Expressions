@@ -165,8 +165,9 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 ## Open issues
 
 - Run the notebook in Colab (Runtime → Run all; about 9 min locally on CPU,
-  probably faster on GPU) and check the numbers above; update the notebook
-  text if they move.
+  probably faster on GPU). The notebook text no longer quotes run numbers, so
+  it stays valid if they move; only check that the trends hold (E3 best,
+  E4 below E3, E5 trades accuracy for `disgust` recall).
 - Parts 4–6 written without a student run: Nikko and Simon must read and be
   able to explain every new cell (experiment chain, final choice, test cell).
 - Results come from one seed: differences under 1 point (cnn_base vs E1)

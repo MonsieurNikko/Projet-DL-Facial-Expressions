@@ -482,3 +482,31 @@ E1 is now kept on accuracy (+1.1); E2 on loss and train/val gap (3.6 vs 7.9).
 
 **Decision:**
 KEEP.
+
+### 2026-10-08 — Notebook text independent of run numbers
+
+**Phase:**  
+Parts 4–6 (presentation quality).
+
+**Goal:**  
+Stop the notebook text from contradicting the printed outputs after a re-run.
+
+**What we did:**  
+- Rewrote the interpretation cells of both notebooks (4b, 5c, 5d, 6b–6i) to
+  describe trends instead of quoting accuracies, losses, epochs, recalls or
+  confusion counts; the code still prints the exact values.
+- 6i now also prints the validation accuracy of the final model and the
+  "always happy" reference on the test set, so the comparison is computed.
+- Restored early-stopping patience to 3 in the main notebook (it had been set
+  to 2, while every text and recorded result used 3).
+- `soutenance/notebook_version_detaillee.ipynb` quoted an older run (before
+  removing blank images: 59.3 % test, E1 without gain); same rewrite applied.
+- New rule in `AGENTS.md`: no run numbers in notebook Markdown.
+
+**Why:**  
+Results change between runs (GPU vs CPU, TensorFlow version, data cleaning),
+so hard-coded numbers made the text contradict the outputs during the defence.
+
+**Decision:**  
+KEEP. Measured numbers stay in `PROJECT_STATE.md` and the README results
+section, with the date and machine of the run.
