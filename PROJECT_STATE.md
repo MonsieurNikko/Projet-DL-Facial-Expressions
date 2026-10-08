@@ -164,6 +164,19 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Open issues
 
+- Run of 2026-10-08 evening by Simon, **detailed notebook only**, Google
+  Colab, seed 42, Part 6 re-run (20 fixed epochs), validation 5,741 images:
+  `cnn_base` 50.4 % / 1.325 · E0 49.2 % / 1.334 · E1 50.1 % / 1.300 ·
+  E1 bis 50.3 % / 1.320 · E2 52.1 % / 1.256 · E3 52.9 % / 1.240 ·
+  E4 59.8 % / 1.071 · E5 56.4 % / 1.129 (accuracy / val loss). `disgust`
+  recall: E3 13.7 %, E4 21.9 %, E5 54.8 %. Test with `modele_final =
+  modele_e5`: 57.8 % (loss 1.127).
+  Caveats: Parts 3–5 were not re-run after the 5×5 change, so the `cnn_base`
+  line is the old 3×3 model; E0 and E1 bis show no gain alone but are kept
+  in later models; by the Part 6 rule the best model is E4, while the code
+  uses E5 as final (Simon's choice, stated in the 6g text).
+  All result-reading cells of the detailed notebook were rewritten from this
+  run. The main notebook has no outputs; its readings are still flagged.
 - Changes of 2026-10-08 (Simon), in both notebooks, **written but never
   run**: (1) dropout rate 0.5 → 0.3 in E2–E5, with the justification in the
   E2 cell; (2) `RandomGaussianBlur(factor=0.5, kernel_size=3, sigma=1.0,
