@@ -510,3 +510,35 @@ so hard-coded numbers made the text contradict the outputs during the defence.
 **Decision:**  
 KEEP. Measured numbers stay in `PROJECT_STATE.md` and the README results
 section, with the date and machine of the run.
+
+### 2026-10-08 — Experiments E6–E9 from an earlier CNN (written, not run)
+
+**Phase:**  
+Part 6.
+
+**Goal:**  
+Try to beat E3 with the design ideas of the CNN Simon built for an earlier
+project (`soutenance/Project_MTH416.ipynb`, PyTorch, chest X-rays), staying
+in Keras.
+
+**What we did:**  
+- Section "6f bis" with four chained experiments from E3: E6 batch
+  normalisation, E7 4th conv block with `same` padding, E8 learning-rate
+  reduction on plateau with longer training, E9 augmentation on top of E8.
+- 6h chooses the final model in code (best validation accuracy among E3 and
+  E6–E9) instead of the fixed `modele_e3`.
+
+**Hypothesis:**  
+The earlier model's structure (4 blocks, batch norm, augmentation, decaying
+learning rate) should help here too; E4 failed mainly for lack of epochs.
+
+**Before / after:**  
+Before: E3, 58.3 % validation (reference run, Windows). After: not measured.
+Only a partial trial on Simon's Mac (CPU, TF 2.21, seed 42): E3 56.8 %,
+E3 + batch norm 57.6 % with a slightly higher loss.
+
+**Decision:**  
+PENDING — the students run E6–E9 and decide with the Part 6 rule. E7 changes
+two things at once (4th block and padding) and E8 changes the schedule and
+the patience together; both are stated in the notebook.
+

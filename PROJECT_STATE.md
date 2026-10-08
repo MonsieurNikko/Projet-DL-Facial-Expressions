@@ -103,6 +103,18 @@ What each part must show or explain:
   and in Markdown; final choice E3; its curves; single test evaluation;
   model saved to `models/modele_final.keras`; demo cell (load model, one
   image, 7 probabilities).
+- Part 6, section "6f bis" (added 2026-10-08, **written but never run**):
+  four more experiments taken from the CNN of Simon's earlier PyTorch
+  project (`soutenance/Project_MTH416.ipynb` + `MTH416_Report.pdf`), ported
+  to Keras, each built on the previous one starting from E3:
+  E6 BatchNormalization after each convolution (356,743 parameters) ·
+  E7 4th block Conv2D(256) with `padding="same"` (685,703 parameters,
+  function `creer_cnn_4_blocs`) · E8 same model, `ReduceLROnPlateau`
+  (factor 0.5, patience 2) + early-stopping patience 6, max 50 epochs
+  (function `entrainer_long`) · E9 E8 + augmentation (flip, rotation 0.03,
+  translation 0.05). 6h now picks the final model in code: best validation
+  accuracy among E3, E6–E9. Parameter counts and shapes were checked by
+  building the models only.
 - Whole notebook executed end to end on real data, locally on CPU (Windows,
   TensorFlow 2.21, about 9 minutes, 543 s); same numbers on two consecutive
   runs. **Not yet run in Colab.** Saved kernel is now the neutral `python3`.
@@ -115,10 +127,15 @@ What each part must show or explain:
 - [x] Part 4 — Training (choices justified, curves, overfitting comment)
 - [x] Part 5 — Evaluation and error analysis
 - [x] Part 6 — 5 experiments, table, final model, test evaluation, demo
-  (local run; Colab check pending)
+  (local run; Colab check pending). E6–E9 added, not run yet.
 
 Optional, only after Part 6: enrichment, multi-face detection / YOLO, video.
-Presentation slides: not started.
+Presentation slides: first version done (2026-10-08), 17 slides, online deck
+(private, owner Simon): https://claude.ai/artifact/Msi5ypa6RFzgdRpXPDbLLm
+Short version chosen for the defence (8 slides, one per part, Gamma, Simon's
+account): https://gamma.app/docs/ourc43y9pgqii3z
+Numbers come from the table below. Two image placeholders to fill from the
+Colab run: CNN curves (4b) and example grid (5d). Speaker notes on each slide.
 
 ## Current model and results
 
@@ -164,6 +181,38 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Open issues
 
+- Detailed notebook only, 2026-10-08: experiment E3b added after E3
+  (**written, never run**): same model as the modified E3, trained with
+  `ReduceLROnPlateau` (factor 0.5, patience 1) through a new `baisse_lr`
+  argument of `entrainer`; early stopping unchanged (patience 3).
+- Detailed notebook only (`soutenance/`), 2026-10-08: E3 was changed in
+  place and no longer matches the main notebook or the dated tables. First
+  convolution is 5×5 (Simon's edit) and the third block has a second
+  `Conv2D(128, 3, padding="same")` (503,943 parameters, not run). E4, E5 and
+  E5b there still copy the old E3 architecture (3×3 first, single conv).
+- E5b (added 2026-10-08, **written, never run**, in both notebooks, right
+  after E5): same model as E3 trained on a training set rebalanced by random
+  oversampling (every class copied up to the size of `happy`, about 40,000
+  images per epoch; validation untouched). `entrainer` got a `donnees_train`
+  argument for it, plus an optional number of epochs (`epoques` in the main
+  notebook, `epoch` in the detailed one; fixed epochs = no early stopping).
+  Undersampling and SMOTE were considered and not implemented (reasons in the
+  cell). In the main notebook E5b is a candidate for the final model in 6h.
+- E6–E9 have no results: the students must run them, write the reading cell
+  at the end of "6f bis", and add their lines to the dated table in 6g.
+  If the final model is no longer E3, the dated test numbers in 6i, the
+  README results and the slides must be updated too.
+- E8 and E9 train much longer (up to 50 epochs on a model about 2.5× heavier
+  than E3): expect a clearly longer notebook run on CPU.
+- Partial trial on Simon's Mac (Apple M4, CPU, TF 2.21, seed 42, same
+  protocol, 2026-10-08, outside the notebook): E3 56.8 % / loss 1.130;
+  E3 + BatchNormalization 57.6 % / loss 1.145, with a jumpy validation
+  curve. So E6 alone is not a clear gain there. E7–E9 not measured.
+- Not ported from the MTH416 model: SiLU, 5×5 first kernel, stepped dense
+  head, SGD with momentum, z-score normalisation.
+- `soutenance/notebook_version_detaillee.ipynb` does not contain E6–E9.
+- Rule for assistants on Simon's side: do not train models; write the code,
+  the students run it.
 - Run the notebook in Colab (Runtime → Run all; about 9 min locally on CPU,
   probably faster on GPU). The notebook text no longer quotes run numbers, so
   it stays valid if they move; only check that the trends hold (E3 best,
@@ -180,7 +229,8 @@ neutral 57.9 · sad 46.0 · surprise 72.4 %.
 
 ## Next step
 
-Students run the notebook in Colab and review Parts 4–6; then prepare the
+Students run the notebook in Colab (including E6–E9), complete the
+"6f bis" reading and the 6g table, and review Parts 4–6; then prepare the
 presentation (approach, architectures, experiment table, results, errors)
 and rehearse the demo cell. Commit after review (Conventional Commits),
 push after approval.
